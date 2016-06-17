@@ -1,6 +1,4 @@
-﻿// Learn more about F# at http://fsharp.org
-// See the 'F# Tutorial' project for more help.]
-open System
+﻿open System
 
 
 [<EntryPoint>]
@@ -16,28 +14,29 @@ let main (args : string[]) =
 
     while not(isGameOver) do
         (* Display the board to the person playing*)
+        let mutable humanMove = 0
         printfn ""
         printfn "Current board state:"
-        printfn "%c|%c|%c" squareChosen.[0] squareChosen.[1] squareChosen.[2]
+        printfn "%c|%c|%c" squareChosen.[6] squareChosen.[7] squareChosen.[8]
         printfn "_____"
         printfn "%c|%c|%c" squareChosen.[3] squareChosen.[4] squareChosen.[5]
         printfn "_____"
-        printfn "%c|%c|%c" squareChosen.[6] squareChosen.[7] squareChosen.[8]
+        printfn "%c|%c|%c" squareChosen.[0] squareChosen.[1] squareChosen.[2]
         
         printfn ""
         printfn "Please enter a number to make your next move:"
         printfn ""
-        printfn "1|2|3"
+        printfn "7|8|9"
         printfn "_____"
         printfn "4|5|6"
         printfn "_____"
-        printfn "7|8|9"
+        printfn "1|2|3"
         (* End of Display code*)
 
         (* Start of human move*)
         let mutable notGoodMove = true
         while notGoodMove do
-            let (humanMove: int) = System.Convert.ToInt32(System.Console.ReadKey().KeyChar) - System.Convert.ToInt32('0')
+            humanMove <- System.Convert.ToInt32(System.Console.ReadKey().KeyChar) - System.Convert.ToInt32('0')
 
             if squareChosen.[humanMove - 1] = ' ' then
                 squareChosen.[humanMove - 1] <- 'O'
@@ -50,35 +49,19 @@ let main (args : string[]) =
         //check if game is over
         if(squareChosen.[0] = 'O' && squareChosen.[1] = 'O' && squareChosen.[2] = 'O') then
             isGameOver <- true
-        elif(squareChosen.[0] = 'X' && squareChosen.[1] = 'X' && squareChosen.[2] = 'X') then
-            isGameOver <- true
         elif(squareChosen.[3] = 'O' && squareChosen.[4] = 'O' && squareChosen.[5] = 'O') then
-            isGameOver <- true
-        elif(squareChosen.[3] = 'X' && squareChosen.[4] = 'X' && squareChosen.[5] = 'X') then
             isGameOver <- true
         elif(squareChosen.[6] = 'O' && squareChosen.[7] = 'O' && squareChosen.[8] = 'O') then
             isGameOver <- true
-        elif(squareChosen.[6] = 'X' && squareChosen.[7] = 'X' && squareChosen.[8] = 'X') then
-            isGameOver <- true
         elif(squareChosen.[0] = 'O' && squareChosen.[3] = 'O' && squareChosen.[6] = 'O') then
-            isGameOver <- true
-        elif(squareChosen.[0] = 'X' && squareChosen.[3] = 'X' && squareChosen.[6] = 'X') then
             isGameOver <- true
         elif(squareChosen.[1] = 'O' && squareChosen.[4] = 'O' && squareChosen.[7] = 'O') then
             isGameOver <- true
-        elif(squareChosen.[1] = 'X' && squareChosen.[4] = 'X' && squareChosen.[7] = 'X') then
-            isGameOver <- true
         elif(squareChosen.[2] = 'O' && squareChosen.[5] = 'O' && squareChosen.[8] = 'O') then
-            isGameOver <- true
-        elif(squareChosen.[2] = 'X' && squareChosen.[5] = 'X' && squareChosen.[8] = 'X') then
             isGameOver <- true
         elif(squareChosen.[0] = 'O' && squareChosen.[4] = 'O' && squareChosen.[8] = 'O') then
             isGameOver <- true
-        elif(squareChosen.[0] = 'X' && squareChosen.[4] = 'X' && squareChosen.[8] = 'X') then
-            isGameOver <- true
         elif(squareChosen.[2] = 'O' && squareChosen.[4] = 'O' && squareChosen.[6] = 'O') then
-            isGameOver <- true
-        elif(squareChosen.[2] = 'X' && squareChosen.[4] = 'X' && squareChosen.[6] = 'X') then
             isGameOver <- true
         elif(not(squareChosen.[0] = ' ') && not(squareChosen.[1] = ' ') && not(squareChosen.[2] = ' ') && not(squareChosen.[3] = ' ') && not(squareChosen.[4] = ' ') && not(squareChosen.[5] = ' ') && not(squareChosen.[6] = ' ') && not(squareChosen.[7] = ' ') && not(squareChosen.[8] = ' ')) then
             isGameOver <- true
@@ -88,60 +71,61 @@ let main (args : string[]) =
 
 
         (* End of human move *)
+        System.Threading.Thread.Sleep(1000)
 
                 (* Display the board to the person playing*)
         printfn ""
         printfn "Current board state:"
-        printfn "%c|%c|%c" squareChosen.[0] squareChosen.[1] squareChosen.[2]
+        printfn "%c|%c|%c" squareChosen.[6] squareChosen.[7] squareChosen.[8]
         printfn "_____"
         printfn "%c|%c|%c" squareChosen.[3] squareChosen.[4] squareChosen.[5]
         printfn "_____"
-        printfn "%c|%c|%c" squareChosen.[6] squareChosen.[7] squareChosen.[8]
+        printfn "%c|%c|%c" squareChosen.[0] squareChosen.[1] squareChosen.[2]
         
-        System.Threading.Thread.Sleep(1000)
 
+
+        
         if not(isGameOver) then
+            printfn "Computer move."
+            System.Threading.Thread.Sleep(2000)
             (* Start of computer move *)
             let mutable notGoodCMove = true
             let mutable computerMove = 9
+
+
+
             while notGoodCMove do
+                if(humanMove = middleSquare) then
+                    printfn "middle"
+                elif(humanMove = cornerSquares.[0] || humanMove = cornerSquares.[1] || humanMove = cornerSquares.[2] || humanMove = cornerSquares.[3]) then
+                    printfn "corner"
+                else
+                    printfn "side"
+
                 if squareChosen.[computerMove-1] = ' ' then
                     squareChosen.[computerMove-1] <- 'X'
                     notGoodCMove <- false
                 else
                     computerMove <- computerMove - 1
                     notGoodCMove <- true
+                    
+
+            (* End of computer thought *)
 
         //check if game is over
-        if(squareChosen.[0] = 'O' && squareChosen.[1] = 'O' && squareChosen.[2] = 'O') then
-            isGameOver <- true
-        elif(squareChosen.[0] = 'X' && squareChosen.[1] = 'X' && squareChosen.[2] = 'X') then
-            isGameOver <- true
-        elif(squareChosen.[3] = 'O' && squareChosen.[4] = 'O' && squareChosen.[5] = 'O') then
+        if(squareChosen.[0] = 'X' && squareChosen.[1] = 'X' && squareChosen.[2] = 'X') then
             isGameOver <- true
         elif(squareChosen.[3] = 'X' && squareChosen.[4] = 'X' && squareChosen.[5] = 'X') then
             isGameOver <- true
-        elif(squareChosen.[6] = 'O' && squareChosen.[7] = 'O' && squareChosen.[8] = 'O') then
-            isGameOver <- true
         elif(squareChosen.[6] = 'X' && squareChosen.[7] = 'X' && squareChosen.[8] = 'X') then
-            isGameOver <- true
-        elif(squareChosen.[0] = 'O' && squareChosen.[3] = 'O' && squareChosen.[6] = 'O') then
             isGameOver <- true
         elif(squareChosen.[0] = 'X' && squareChosen.[3] = 'X' && squareChosen.[6] = 'X') then
             isGameOver <- true
-        elif(squareChosen.[1] = 'O' && squareChosen.[4] = 'O' && squareChosen.[7] = 'O') then
-            isGameOver <- true
         elif(squareChosen.[1] = 'X' && squareChosen.[4] = 'X' && squareChosen.[7] = 'X') then
-            isGameOver <- true
-        elif(squareChosen.[2] = 'O' && squareChosen.[5] = 'O' && squareChosen.[8] = 'O') then
             isGameOver <- true
         elif(squareChosen.[2] = 'X' && squareChosen.[5] = 'X' && squareChosen.[8] = 'X') then
             isGameOver <- true
-        elif(squareChosen.[0] = 'O' && squareChosen.[4] = 'O' && squareChosen.[8] = 'O') then
-            isGameOver <- true
         elif(squareChosen.[0] = 'X' && squareChosen.[4] = 'X' && squareChosen.[8] = 'X') then
-            isGameOver <- true
-        elif(squareChosen.[2] = 'O' && squareChosen.[4] = 'O' && squareChosen.[6] = 'O') then
             isGameOver <- true
         elif(squareChosen.[2] = 'X' && squareChosen.[4] = 'X' && squareChosen.[6] = 'X') then
             isGameOver <- true
@@ -154,13 +138,13 @@ let main (args : string[]) =
 
     (* Show ending board*)
     printfn ""
-    printfn "Current board state:"
+    printfn "End board state:"
     //print the current board using the bool array
-    printfn "%c|%c|%c" squareChosen.[0] squareChosen.[1] squareChosen.[2]
+    printfn "%c|%c|%c" squareChosen.[6] squareChosen.[7] squareChosen.[8]
     printfn "_____"
     printfn "%c|%c|%c" squareChosen.[3] squareChosen.[4] squareChosen.[5]
     printfn "_____"
-    printfn "%c|%c|%c" squareChosen.[6] squareChosen.[7] squareChosen.[8]
+    printfn "%c|%c|%c" squareChosen.[0] squareChosen.[1] squareChosen.[2]
     printfn "The game is over."
     System.Console.ReadKey() |> ignore
 

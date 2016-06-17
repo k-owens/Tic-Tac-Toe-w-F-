@@ -6,3 +6,11 @@
 \\pekinfp03\systems$\faia0634\ko87132\my documents\visual studio 2015\Projects\TicTacToe\TicTacToe\bin\Debug\FSharp.Core.xml
 \\pekinfp03\systems$\faia0634\ko87132\my documents\visual studio 2015\Projects\TicTacToe\TicTacToe\obj\Debug\TicTacToe.exe
 \\pekinfp03\systems$\faia0634\ko87132\my documents\visual studio 2015\Projects\TicTacToe\TicTacToe\obj\Debug\TicTacToe.pdb
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\TicTacToe.exe.config
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\TicTacToe.XML
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\TicTacToe.exe
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\TicTacToe.pdb
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\FSharp.Core.dll
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\FSharp.Core.xml
+C:\gitwork\TicTacToeF#\TicTacToe\obj\Debug\TicTacToe.exe
+C:\gitwork\TicTacToeF#\TicTacToe\obj\Debug\TicTacToe.pdb
