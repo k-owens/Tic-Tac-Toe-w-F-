@@ -18,6 +18,7 @@ let displayBoardState () =
     printfn "%c|%c|%c" squareChosen.[0] squareChosen.[1] squareChosen.[2]
     
 let askForInput () =
+    printfn "Please enter a number to make your next move:"
     printfn ""
     printfn "7|8|9"
     printfn "_____"
@@ -25,7 +26,7 @@ let askForInput () =
     printfn "_____"
     printfn "1|2|3"
     printfn ""
-    printfn "Please enter a number to make your next move:"
+
 
 let checkHumanWin () : bool =
     if(squareChosen.[0] = 'O' && squareChosen.[1] = 'O' && squareChosen.[2] = 'O') then
@@ -71,23 +72,22 @@ let checkComputerWin () : bool =
     else
         false
 
-let humanMove () =
-    let mutable notGoodMove = true
-    while notGoodMove do
-        humanMoveSpot <- System.Convert.ToInt32(System.Console.ReadKey().KeyChar) - System.Convert.ToInt32('0')
+let rec humanMove (moveNum) =
+    humanMoveSpot <- moveNum
 
-        if squareChosen.[humanMoveSpot - 1] = ' ' then
-            squareChosen.[humanMoveSpot - 1] <- 'O'
-            printfn ""
-            notGoodMove <- false
-        else
-            notGoodMove <- true
-            printfn "Not a legal move.  Please enter another move:"
+    if humanMoveSpot <> 0 && squareChosen.[humanMoveSpot - 1] = ' '  then
+        squareChosen.[humanMoveSpot - 1] <- 'O'
+        printfn ""
+    else
+        printfn "Not a legal move.  Please enter another move:"
+        humanMove (System.Convert.ToInt32(System.Console.ReadKey().KeyChar) - System.Convert.ToInt32('0'))
+
+
 
 let winGameOrBlockWin (userCharacter) : int = 
     let mutable returnNum = -2
     //horizontal
-    for i in 0 .. 3 .. 8 do //0,3,6
+    for i in 0 .. 3 .. 8 do
         if(squareChosen.[i] = ' ' && squareChosen.[i+1] = userCharacter && squareChosen.[i+2] = userCharacter) then
             returnNum <- i
         elif(squareChosen.[i] = userCharacter && squareChosen.[i+1] = ' ' && squareChosen.[i+2] = userCharacter) then
@@ -118,6 +118,46 @@ let winGameOrBlockWin (userCharacter) : int =
         returnNum <- 6
     returnNum + 1
 
+
+let chooseCorner () : int = 
+    let mutable returnNum = -1
+    if(squareChosen.[cornerSquares.[1] - 1] = ' ') then
+        returnNum <-cornerSquares.[1]//choose the corners (index 0 will always be taken)
+    elif(squareChosen.[cornerSquares.[2] - 1] = ' ') then
+        returnNum <- cornerSquares.[2]
+    elif(squareChosen.[cornerSquares.[3] - 1] = ' ') then
+        returnNum <- cornerSquares.[3]
+    elif(squareChosen.[cornerSquares.[0] - 1] = ' ') then
+        returnNum <- cornerSquares.[0]
+    returnNum
+
+let chooseSide () : int = 
+    let mutable returnNum = -1
+    if(squareChosen.[outsideSquares.[0] - 1] = ' ') then
+        returnNum <- outsideSquares.[0]
+    elif(squareChosen.[outsideSquares.[1] - 1] = ' ') then
+        returnNum <- outsideSquares.[1]
+    elif(squareChosen.[outsideSquares.[2] - 1] = ' ') then
+        returnNum <- outsideSquares.[2]
+    elif(squareChosen.[outsideSquares.[3]] = ' ') then
+        returnNum <- outsideSquares.[3]
+    returnNum
+
+let chooseCornerInBetween (huMove) : int=
+    let mutable returnNum = -1
+    if((firstHumanMove = cornerSquares.[0] && huMove = cornerSquares.[3]) || (firstHumanMove = cornerSquares.[3] && huMove = cornerSquares.[0]) || (firstHumanMove = cornerSquares.[1] && huMove = cornerSquares.[2]) || (firstHumanMove = cornerSquares.[2] && huMove = cornerSquares.[14])) then
+        returnNum <- chooseSide ()
+    elif((firstHumanMove = outsideSquares.[0] && (huMove = outsideSquares.[1] || huMove = cornerSquares.[2])) || (firstHumanMove = cornerSquares.[1] && (huMove = outsideSquares.[1] || huMove = cornerSquares.[2])) || (firstHumanMove = outsideSquares.[1] && (huMove = outsideSquares.[0] || huMove = cornerSquares.[1])) || (firstHumanMove = cornerSquares.[2] && (huMove = outsideSquares.[0] || huMove = cornerSquares.[1]))) then
+        returnNum <- cornerSquares.[0]
+    elif((firstHumanMove = outsideSquares.[0] && (huMove = outsideSquares.[2] || huMove = cornerSquares.[3])) || (firstHumanMove = cornerSquares.[0] && (huMove = outsideSquares.[2] || huMove = cornerSquares.[3])) || (firstHumanMove = outsideSquares.[2] && (huMove = outsideSquares.[0] || huMove = cornerSquares.[0])) || (firstHumanMove = cornerSquares.[3] && (huMove = outsideSquares.[0] || huMove = cornerSquares.[0]))) then
+        returnNum <- cornerSquares.[1]
+    elif((firstHumanMove = outsideSquares.[1] && (huMove = outsideSquares.[3] || huMove = cornerSquares.[3])) || (firstHumanMove = cornerSquares.[0] && (huMove = outsideSquares.[3] || huMove = cornerSquares.[3])) || (firstHumanMove = outsideSquares.[3] && (huMove = outsideSquares.[1] || huMove = cornerSquares.[0])) || (firstHumanMove = cornerSquares.[3] && (huMove = outsideSquares.[1] || huMove = cornerSquares.[0]))) then
+        returnNum <- cornerSquares.[2]
+    elif((firstHumanMove = outsideSquares.[2] && (huMove = outsideSquares.[3] || huMove = cornerSquares.[2])) || (firstHumanMove = cornerSquares.[1] && (huMove = outsideSquares.[3] || huMove = cornerSquares.[2])) || (firstHumanMove = outsideSquares.[3] && (huMove = outsideSquares.[2] || huMove = cornerSquares.[1])) || (firstHumanMove = cornerSquares.[2] && (huMove = outsideSquares.[2] || huMove = cornerSquares.[1]))) then
+        returnNum <- cornerSquares.[3]
+
+    returnNum
+
 let computerTurn () =
     printfn "Computer move."
     System.Threading.Thread.Sleep(2000)
@@ -142,31 +182,23 @@ let computerTurn () =
         if(computerMove = -1) then
             computerMove <- winGameOrBlockWin ('O')
         if(computerMove = -1) then
-            printfn ""
-    //first move was corner
-    elif(firstHumanMove = cornerSquares.[0] || firstHumanMove = cornerSquares.[1] || firstHumanMove = cornerSquares.[2] || firstHumanMove = cornerSquares.[3]) then
+            computerMove <- chooseCorner ()
+            if(computerMove = -1) then
+                computerMove <- chooseSide ()
+                //choose remaining sides
+    //first move was corner or side
+    elif(firstHumanMove <> middleSquare) then
         computerMove <- winGameOrBlockWin ('X')
         if(computerMove = -1) then
             computerMove <- winGameOrBlockWin ('O')
         if(computerMove = -1) then
-            printfn ""
-    //first move was side
-    else
-        computerMove <- winGameOrBlockWin ('X')
-        if(computerMove = -1) then
-            computerMove <- winGameOrBlockWin ('O')
-        if(computerMove = -1) then
-            printfn ""
+            computerMove <- chooseCornerInBetween (humanMoveSpot)
+            if(computerMove = -1) then
+                computerMove <- chooseCorner ()
+                if(computerMove = -1) then
+                    computerMove <- chooseSide ()
     
     squareChosen.[computerMove-1] <- 'X'
-
-    (*used to determine a legal move for the mindless computer
-    if squareChosen.[computerMove-1] = ' ' then
-        squareChosen.[computerMove-1] <- 'X'
-        notGoodCMove <- false
-    else
-        computerMove <- computerMove - 1
-        notGoodCMove <- true*)
 
 let keepWindowOpen () =
     System.Console.ReadKey() |> ignore
@@ -183,7 +215,7 @@ let main (args : string[]) =
         displayBoardState ()
         askForInput ()
 
-        humanMove ()
+        humanMove (System.Convert.ToInt32(System.Console.ReadKey().KeyChar) - System.Convert.ToInt32('0'))
 
         isGameOver <- checkHumanWin ()
 
@@ -197,6 +229,6 @@ let main (args : string[]) =
     turn <- turn + 1
 
     displayBoardState ()
-    printfn "The game is over."
+    printfn "The game is over.  The computer is still unbeaten."
     keepWindowOpen ()
     0
