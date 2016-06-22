@@ -14,3 +14,12 @@ C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\FSharp.Core.dll
 C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\FSharp.Core.xml
 C:\gitwork\TicTacToeF#\TicTacToe\obj\Debug\TicTacToe.exe
 C:\gitwork\TicTacToeF#\TicTacToe\obj\Debug\TicTacToe.pdb
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\FsUnit.NUnit.dll
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\NHamcrest.dll
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\nunit.framework.dll
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\FsUnit.NUnit.pdb
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\FsUnit.NUnit.xml
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\NHamcrest.pdb
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\nunit.framework.xml
