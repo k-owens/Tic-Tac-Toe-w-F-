@@ -1,18 +1,42 @@
 ﻿module GamePlayer
 
 let middleSquare = 5
-let outsideSquares = [| 2; 4; 6; 8 |]
-let cornerSquares = [| 1; 3; 7; 9 |]
+let outsideSquares = [ 2; 4; 6; 8 ]
+let cornerSquares = [ 1; 3; 7; 9 ]
 
-let makeMove (gameState : char[], player : char, place : int) : char[] = 
-    let (newGameState : char[]) = gameState
-    if(newGameState.[place-1] = ' ') then
-        newGameState.[place-1] <- player
-        newGameState
+let makeMove (gameState : char list, player : char, place : int) : char list = 
+    if(gameState.[place-1] = ' ') then
+        if (place = 1) then
+            let newGameState = [player;gameState.[1];gameState.[2];gameState.[3];gameState.[4];gameState.[5];gameState.[6];gameState.[7];gameState.[8]]
+            newGameState
+        elif (place = 2) then
+            let newGameState = [gameState.[0];player;gameState.[2];gameState.[3];gameState.[4];gameState.[5];gameState.[6];gameState.[7];gameState.[8]]
+            newGameState
+        elif (place = 3) then
+            let newGameState = [gameState.[0];gameState.[1];player;gameState.[3];gameState.[4];gameState.[5];gameState.[6];gameState.[7];gameState.[8]]
+            newGameState
+        elif (place = 4) then
+            let newGameState = [gameState.[0];gameState.[1];gameState.[2];player;gameState.[4];gameState.[5];gameState.[6];gameState.[7];gameState.[8]]
+            newGameState
+        elif (place = 5) then
+            let newGameState = [gameState.[0];gameState.[1];gameState.[2];gameState.[3];player;gameState.[5];gameState.[6];gameState.[7];gameState.[8]]
+            newGameState
+        elif (place = 6) then
+            let newGameState = [gameState.[0];gameState.[1];gameState.[2];gameState.[3];gameState.[4];player;gameState.[6];gameState.[7];gameState.[8]]
+            newGameState
+        elif (place = 7) then
+            let newGameState = [gameState.[0];gameState.[1];gameState.[2];gameState.[3];gameState.[4];gameState.[5];player;gameState.[7];gameState.[8]]
+            newGameState
+        elif (place = 8) then
+            let newGameState = [gameState.[0];gameState.[1];gameState.[2];gameState.[3];gameState.[4];gameState.[5];gameState.[6];player;gameState.[8]]
+            newGameState
+        else
+            let newGameState = [gameState.[0];gameState.[1];gameState.[2];gameState.[3];gameState.[4];gameState.[5];gameState.[6];gameState.[7];player]
+            newGameState
     else
-        gameState
+    gameState
 
-let displayBoardState (gameState : char[]) =
+let displayBoardState (gameState : char list) =
     printfn ""
     printfn "Current board state:"
     printfn "%c|%c|%c" gameState.[6] gameState.[7] gameState.[8]
@@ -32,7 +56,7 @@ let askForInput () =
     printfn ""
 
 
-let didTieHappen (gameState : char[]) : bool = 
+let didTieHappen (gameState : char list) : bool = 
     if(not(gameState.[0] = ' ') && not(gameState.[1] = ' ') && not(gameState.[2] = ' ') && not(gameState.[3] = ' ') && not(gameState.[4] = ' ') && not(gameState.[5] = ' ') && not(gameState.[6] = ' ') && not(gameState.[7] = ' ') && not(gameState.[8] = ' ')) then
         true
     else
@@ -40,43 +64,43 @@ let didTieHappen (gameState : char[]) : bool =
 
 let didOWin (gameState) : bool =
     match gameState with
-    | [|'O';'O';'O';_;_;_;_;_;_|] -> true
-    | [|_;_;_;'O';'O';'O';_;_;_|] -> true
-    | [|_;_;_;_;_;_;'O';'O';'O'|] -> true
-    | [|'O';_;_;'O';_;_;'O';_;_|] -> true
-    | [|_;'O';_;_;'O';_;_;'O';_|] -> true
-    | [|_;_;'O';_;_;'O';_;_;'O'|] -> true
-    | [|'O';_;_;_;'O';_;_;_;'O'|] -> true
-    | [|_;_;'O';_;'O';_;'O';_;_|] -> true
+    | ['O';'O';'O';_;_;_;_;_;_] -> true
+    | [_;_;_;'O';'O';'O';_;_;_] -> true
+    | [_;_;_;_;_;_;'O';'O';'O'] -> true
+    | ['O';_;_;'O';_;_;'O';_;_] -> true
+    | [_;'O';_;_;'O';_;_;'O';_] -> true
+    | [_;_;'O';_;_;'O';_;_;'O'] -> true
+    | ['O';_;_;_;'O';_;_;_;'O'] -> true
+    | [_;_;'O';_;'O';_;'O';_;_] -> true
     | _ -> false
 
 let didXWin (gameState) : bool =
     match gameState with
-    | [|'X';'X';'X';_;_;_;_;_;_|] -> true
-    | [|_;_;_;'X';'X';'X';_;_;_|] -> true
-    | [|_;_;_;_;_;_;'X';'X';'X'|] -> true
-    | [|'X';_;_;'X';_;_;'X';_;_|] -> true
-    | [|_;'X';_;_;'X';_;_;'X';_|] -> true
-    | [|_;_;'X';_;_;'X';_;_;'X'|] -> true
-    | [|'X';_;_;_;'X';_;_;_;'X'|] -> true
-    | [|_;_;'X';_;'X';_;'X';_;_|] -> true
+    | ['X';'X';'X';_;_;_;_;_;_] -> true
+    | [_;_;_;'X';'X';'X';_;_;_] -> true
+    | [_;_;_;_;_;_;'X';'X';'X'] -> true
+    | ['X';_;_;'X';_;_;'X';_;_] -> true
+    | [_;'X';_;_;'X';_;_;'X';_] -> true
+    | [_;_;'X';_;_;'X';_;_;'X'] -> true
+    | ['X';_;_;_;'X';_;_;_;'X'] -> true
+    | [_;_;'X';_;'X';_;'X';_;_] -> true
     | _ -> false
 
-let isGameOver (gameState : char[]) : bool = 
+let isGameOver (gameState : char list) : bool = 
     if (didTieHappen(gameState) || didOWin(gameState) || didXWin(gameState)) then
         true
     else
         false
 
-let rec humanMove (moveNum : int, gameState : char[]) : char[] =
+let rec humanMove (moveNum : int, gameState : char list) : char list =
 
-    if moveNum <> 0 && gameState.[moveNum - 1] = ' '  then
+    if (moveNum = 1 || moveNum = 2 ||moveNum = 3 ||moveNum = 4 ||moveNum = 5 ||moveNum = 6 ||moveNum = 7 ||moveNum = 8 ||moveNum = 9) && gameState.[moveNum - 1] = ' '  then
         makeMove(gameState, 'O', moveNum)
     else
         printfn "Not a legal move.  Please enter another move:"
         humanMove (System.Convert.ToInt32(System.Console.ReadKey().KeyChar) - System.Convert.ToInt32('0'), gameState)
 
-let winGameOrBlockWin (userCharacter: char, gameState : char[]) : int = 
+let winGameOrBlockWin (userCharacter: char, gameState : char list) : int = 
     let mutable returnNum = -2
     //horizontal
     for i in 0 .. 3 .. 8 do
@@ -111,7 +135,7 @@ let winGameOrBlockWin (userCharacter: char, gameState : char[]) : int =
     returnNum + 1
 
 
-let chooseCorner (gameState : char[]) : int = 
+let chooseCorner (gameState : char list) : int = 
     if(gameState.[cornerSquares.[1] - 1] = ' ') then
         cornerSquares.[1]
     elif(gameState.[cornerSquares.[2] - 1] = ' ') then
@@ -123,7 +147,7 @@ let chooseCorner (gameState : char[]) : int =
     else
         -1
 
-let chooseSide (gameState : char[]) : int = 
+let chooseSide (gameState : char list) : int = 
     if(gameState.[outsideSquares.[0] - 1] = ' ') then
         outsideSquares.[0]
     elif(gameState.[outsideSquares.[1] - 1] = ' ') then
@@ -135,8 +159,8 @@ let chooseSide (gameState : char[]) : int =
     else
         -1
 
-let chooseCornerInBetween (huMove : int, gameState : char[], firstHumanMove : int) : int=
-    if((firstHumanMove = cornerSquares.[0] && huMove = cornerSquares.[3]) || (firstHumanMove = cornerSquares.[3] && huMove = cornerSquares.[0]) || (firstHumanMove = cornerSquares.[1] && huMove = cornerSquares.[2]) || (firstHumanMove = cornerSquares.[2] && huMove = cornerSquares.[14])) then
+let chooseCornerInBetween (huMove : int, gameState : char list, firstHumanMove : int) : int=
+    if((firstHumanMove = cornerSquares.[0] && huMove = cornerSquares.[3]) || (firstHumanMove = cornerSquares.[3] && huMove = cornerSquares.[0]) || (firstHumanMove = cornerSquares.[1] && huMove = cornerSquares.[2]) || (firstHumanMove = cornerSquares.[2] && huMove = cornerSquares.[1])) then
         chooseSide (gameState)
     elif((firstHumanMove = outsideSquares.[0] && (huMove = outsideSquares.[1] || huMove = cornerSquares.[2])) || (firstHumanMove = cornerSquares.[1] && (huMove = outsideSquares.[1] || huMove = cornerSquares.[2])) || (firstHumanMove = outsideSquares.[1] && (huMove = outsideSquares.[0] || huMove = cornerSquares.[1])) || (firstHumanMove = cornerSquares.[2] && (huMove = outsideSquares.[0] || huMove = cornerSquares.[1]))) then
         cornerSquares.[0]
@@ -149,22 +173,22 @@ let chooseCornerInBetween (huMove : int, gameState : char[], firstHumanMove : in
     else
         -1
 
-let isFirstComputerTurn (gameState : char[]) = 
+let isFirstComputerTurn (gameState : char list) = 
     match gameState with
-    | [|'O';' ';' ';' ';' ';' ';' ';' ';' '|] -> true
-    | [|' ';'O';' ';' ';' ';' ';' ';' ';' '|] -> true
-    | [|' ';' ';'O';' ';' ';' ';' ';' ';' '|] -> true
-    | [|' ';' ';' ';'O';' ';' ';' ';' ';' '|] -> true
-    | [|' ';' ';' ';' ';'O';' ';' ';' ';' '|] -> true
-    | [|' ';' ';' ';' ';' ';'O';' ';' ';' '|] -> true
-    | [|' ';' ';' ';' ';' ';' ';'O';' ';' '|] -> true
-    | [|' ';' ';' ';' ';' ';' ';' ';'O';' '|] -> true
-    | [|' ';' ';' ';' ';' ';' ';' ';' ';'O'|] -> true
+    | ['O';' ';' ';' ';' ';' ';' ';' ';' '] -> true
+    | [' ';'O';' ';' ';' ';' ';' ';' ';' '] -> true
+    | [' ';' ';'O';' ';' ';' ';' ';' ';' '] -> true
+    | [' ';' ';' ';'O';' ';' ';' ';' ';' '] -> true
+    | [' ';' ';' ';' ';'O';' ';' ';' ';' '] -> true
+    | [' ';' ';' ';' ';' ';'O';' ';' ';' '] -> true
+    | [' ';' ';' ';' ';' ';' ';'O';' ';' '] -> true
+    | [' ';' ';' ';' ';' ';' ';' ';'O';' '] -> true
+    | [' ';' ';' ';' ';' ';' ';' ';' ';'O'] -> true
     | _ -> false
 
-let computerMove (gameState : char[], humanMoveSpot : int, firstHumanMove : int) : char[] =
+let computerMove (gameState : char list, humanMoveSpot : int, firstHumanMove : int) : char list =
     printfn "Computer move."
-    System.Threading.Thread.Sleep(2000)
+    System.Threading.Thread.Sleep(1000)
     let mutable computerMove = -1
 
     //first move middle
@@ -186,7 +210,7 @@ let computerMove (gameState : char[], humanMoveSpot : int, firstHumanMove : int)
             if(computerMove = -1) then
                 computerMove <- chooseSide (gameState)
     //first move was corner or side
-    elif(firstHumanMove <> middleSquare) then
+    else
         computerMove <- winGameOrBlockWin ('X', gameState)
         if(computerMove = -1) then
             computerMove <- winGameOrBlockWin ('O', gameState)
@@ -202,13 +226,13 @@ let computerMove (gameState : char[], humanMoveSpot : int, firstHumanMove : int)
 let keepWindowOpen () =
     System.Console.ReadKey() |> ignore
 
-let endGame (gameState : char[]) = 
+let endGame (gameState : char list) = 
     displayBoardState (gameState)
     printfn "The game is over.  The computer is still unbeaten."
     keepWindowOpen ()
     exit 0
 
-let rec playGame (gameState : char[], turn : int, humanMoveNum : int, firstMove : int) =
+let rec playGame (gameState : char list, turn : int, humanMoveNum : int, firstMove : int) =
         displayBoardState (gameState)
 
 
