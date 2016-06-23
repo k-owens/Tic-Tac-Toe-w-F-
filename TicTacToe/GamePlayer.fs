@@ -38,7 +38,7 @@ let makeMove (gameState : char list, player : char, place : int) : char list =
 
 let displayBoardState (gameState : char list) =
     printfn ""
-    printfn "Current board state:"
+    printfn "Current board:"
     printfn "%c|%c|%c" gameState.[6] gameState.[7] gameState.[8]
     printfn "_____"
     printfn "%c|%c|%c" gameState.[3] gameState.[4] gameState.[5]
@@ -54,7 +54,6 @@ let askForInput () =
     printfn "_____"
     printfn "1|2|3"
     printfn ""
-
 
 let didTieHappen (gameState : char list) : bool = 
     if(not(gameState.[0] = ' ') && not(gameState.[1] = ' ') && not(gameState.[2] = ' ') && not(gameState.[3] = ' ') && not(gameState.[4] = ' ') && not(gameState.[5] = ' ') && not(gameState.[6] = ' ') && not(gameState.[7] = ' ') && not(gameState.[8] = ' ')) then
@@ -134,7 +133,6 @@ let winGameOrBlockWin (userCharacter: char, gameState : char list) : int =
         returnNum <- 6
     returnNum + 1
 
-
 let chooseCorner (gameState : char list) : int = 
     if(gameState.[cornerSquares.[1] - 1] = ' ') then
         cornerSquares.[1]
@@ -187,7 +185,7 @@ let isFirstComputerTurn (gameState : char list) =
     | _ -> false
 
 let computerMove (gameState : char list, humanMoveSpot : int, firstHumanMove : int) : char list =
-    printfn "Computer move."
+    printfn "Computer move..."
     System.Threading.Thread.Sleep(1000)
     let mutable computerMove = -1
 
@@ -229,13 +227,12 @@ let keepWindowOpen () =
 let endGame (gameState : char list) = 
     displayBoardState (gameState)
     printfn "The game is over.  The computer is still unbeaten."
+    printfn "Enter any key to exit."
     keepWindowOpen ()
     exit 0
 
 let rec playGame (gameState : char list, turn : int, humanMoveNum : int, firstMove : int) =
         displayBoardState (gameState)
-
-
 
         if turn % 2 = 1 then
             askForInput ()
@@ -249,7 +246,6 @@ let rec playGame (gameState : char list, turn : int, humanMoveNum : int, firstMo
                 endGame (newGameState)
             playGame (newGameState, turn + 1, input, firstMove)
         else
-            
             let newGameState = computerMove (gameState, humanMoveNum, firstMove)
             if isGameOver (newGameState) then
                 endGame (newGameState)
