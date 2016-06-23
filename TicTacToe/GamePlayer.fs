@@ -1,8 +1,8 @@
 ﻿module GamePlayer
 
 let middleSquare = 5
-let outsideSquares = [| 2; 4; 6; 8 |]
-let cornerSquares = [| 1; 3; 7; 9 |]
+let outsideSquares = [ 2; 4; 6; 8 ]
+let cornerSquares = [ 1; 3; 7; 9 ]
 
 let makeMove (gameState : char list, player : char, place : int) : char list = 
     if(gameState.[place-1] = ' ') then
