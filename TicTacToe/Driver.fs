@@ -6,7 +6,7 @@ open GamePlayer
 
 [<EntryPoint>]
 let main (args : string[]) = 
-    let (startingBoard: char[]) = [| ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' ' |]
+    let startingBoard = [ ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' ' ]
     printfn "Tic-Tac-Toe"
 
     playGame (startingBoard, 1, -1, -1)
