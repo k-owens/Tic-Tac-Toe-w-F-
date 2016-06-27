@@ -17,7 +17,7 @@ let canGameBePlayed () =
     //playGame(testBoard,1,1,1)
 
 [<Fact>]
-let canMakeMove () =
+let canMakeMoveSpot1 () =
     let testBoard : char list = [' ';' ';' ';' ';' ';' ';' ';' ';' ']
 
     let newBoard = makeMove(testBoard,'O',1)
@@ -92,7 +92,7 @@ let canMakeMoveSpot9 () =
 let canMakeHumanMove () = 
     let testBoard : char list = [' ';' ';' ';' ';' ';' ';' ';' ';' ']
 
-    let newBoard = humanMove(1,testBoard,'O')
+    let newBoard = humanMove(1,testBoard,'O',true)
 
     Assert.AreEqual(newBoard, ['O';' ';' ';' ';' ';' ';' ';' ';' '])
 
@@ -228,7 +228,7 @@ let testDisplay () =
 
 [<Fact>]
 let canAskForInput () =
-    askForInput ()
+    askForInput (true)
 
 [<Fact>]
 let aiCanFindWin () =

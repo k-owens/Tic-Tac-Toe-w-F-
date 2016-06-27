@@ -37,23 +37,33 @@ let makeMove (gameState : char list, player : char, place : int) : char list =
     gameState
 
 let displayBoardState (gameState : char list) =
-    printfn ""
-    printfn "Current board:"
-    printfn "%c|%c|%c" gameState.[6] gameState.[7] gameState.[8]
-    printfn "_____"
-    printfn "%c|%c|%c" gameState.[3] gameState.[4] gameState.[5]
-    printfn "_____"
-    printfn "%c|%c|%c" gameState.[0] gameState.[1] gameState.[2]
+        printfn ""
+        printfn "Current board:"
+        printfn "%c|%c|%c" gameState.[6] gameState.[7] gameState.[8]
+        printfn "_____"
+        printfn "%c|%c|%c" gameState.[3] gameState.[4] gameState.[5]
+        printfn "_____"
+        printfn "%c|%c|%c" gameState.[0] gameState.[1] gameState.[2]
     
-let askForInput () =
-    printfn "Please enter a number to make your next move:"
-    printfn ""
-    printfn "7|8|9"
-    printfn "_____"
-    printfn "4|5|6"
-    printfn "_____"
-    printfn "1|2|3"
-    printfn ""
+let askForInput (isBoardTopHeavy : bool) =
+    if(isBoardTopHeavy) then
+        printfn "Please enter a number to make your next move:"
+        printfn ""
+        printfn "7|8|9"
+        printfn "_____"
+        printfn "4|5|6"
+        printfn "_____"
+        printfn "1|2|3"
+        printfn ""
+    else
+        printfn "Please enter a number to make your next move:"
+        printfn ""
+        printfn "1|2|3"
+        printfn "_____"
+        printfn "4|5|6"
+        printfn "_____"
+        printfn "7|8|9"
+        printfn ""
 
 let didTieHappen (gameState : char list) : bool = 
     if(not(gameState.[0] = ' ') && not(gameState.[1] = ' ') && not(gameState.[2] = ' ') && not(gameState.[3] = ' ') && not(gameState.[4] = ' ') && not(gameState.[5] = ' ') && not(gameState.[6] = ' ') && not(gameState.[7] = ' ') && not(gameState.[8] = ' ')) then
@@ -91,12 +101,61 @@ let isGameOver (gameState : char list, humanCharacter : char,computerCharacter :
     else
         false
 
-let rec humanMove (moveNum : int, gameState : char list, humanCharacter : char) : char list =
+let rec moveInput (isBoardTopHeavy : bool) : int = 
+    let input = System.Console.ReadKey().KeyChar
+    printfn ""
+    if(isBoardTopHeavy) then
+        if(input = '1') then
+            1
+        elif(input = '2') then
+            2
+        elif(input = '3') then
+            3
+        elif(input = '4') then
+            4
+        elif(input = '5') then
+            5
+        elif(input = '6') then
+            6
+        elif(input = '7') then
+            7
+        elif(input = '8') then
+            8
+        elif(input = '9') then
+            9
+        else
+            printfn "Not a legal move.  Please input a new move:"
+            moveInput(isBoardTopHeavy)
+    else
+        if(input = '1') then
+            7
+        elif(input = '2') then
+            8
+        elif(input = '3') then
+            9
+        elif(input = '4') then
+            4
+        elif(input = '5') then
+            5
+        elif(input = '6') then
+            6
+        elif(input = '7') then
+            1
+        elif(input = '8') then
+            2
+        elif(input = '9') then
+            3
+        else
+            printfn "Not a legal move.  Please input a new move:"
+            moveInput(isBoardTopHeavy)
+
+let rec humanMove (moveNum : int, gameState : char list, humanCharacter : char, isBoardTopHeavy : bool) : char list =
     if (moveNum = 1 || moveNum = 2 ||moveNum = 3 ||moveNum = 4 ||moveNum = 5 ||moveNum = 6 ||moveNum = 7 ||moveNum = 8 ||moveNum = 9) && gameState.[moveNum - 1] = ' '  then
         makeMove(gameState, humanCharacter, moveNum)
     else
-        printfn "Not a legal move.  Please enter another move:"
-        humanMove (System.Convert.ToInt32(System.Console.ReadKey().KeyChar) - System.Convert.ToInt32('0'), gameState, humanCharacter)
+        (*Dependencies*)
+        printfn "Not a legal move.  Please input a new move:"
+        humanMove (moveInput(isBoardTopHeavy), gameState, humanCharacter, isBoardTopHeavy)
 
 let checkHorizontalWins (userCharacter: char, gameState : char list) : int = 
     let mutable returnNum = -2
@@ -221,13 +280,11 @@ let isFirstMove (gamestate : char list) : bool =
         true
     else false
 
-let makeFirstMove () : int =
-    let mutable returnMove = -1
-    if(true) then
-        returnMove <- 1
-        returnMove
+let makeFirstMove (gamestate) : int =
+    if(isFirstMove(gamestate)) then
+        1
     else
-        returnMove
+        -1
 
 let respondToFirstMove (gameState : char list, humanMoveSpot : int, humanCharacter : char) : int =
     let mutable returnMove = -1
@@ -272,40 +329,33 @@ let computerMove (gameState : char list, humanMoveSpot : int, firstHumanMove : i
     System.Threading.Thread.Sleep(1000)
     let mutable computerMove = -1
 
-    computerMove <- respondToFirstMove (gameState, humanMoveSpot, humanCharacter)
+    computerMove <- makeFirstMove(gameState)
     if(computerMove = -1) then
-        computerMove <- respondToMiddleStrategy (gameState, firstHumanMove, humanCharacter, computerCharacter)
+        computerMove <- respondToFirstMove (gameState, humanMoveSpot, humanCharacter)
         if(computerMove = -1) then
-            computerMove <- respondToSideOrCornerStrategy (gameState, humanMoveSpot, firstHumanMove, humanCharacter, computerCharacter)
+            computerMove <- respondToMiddleStrategy (gameState, firstHumanMove, humanCharacter, computerCharacter)
+            if(computerMove = -1) then
+                computerMove <- respondToSideOrCornerStrategy (gameState, humanMoveSpot, firstHumanMove, humanCharacter, computerCharacter)
 
     makeMove(gameState,computerCharacter,computerMove)
 
-let keepWindowOpen () =
-    System.Console.ReadKey() |> ignore
-
-let endGame (gameState : char list) = 
-    displayBoardState (gameState)
-    printfn "The game is over.  The computer is still unbeaten."
-    printfn "Enter any key to exit."
-    keepWindowOpen ()
-    exit 0
-
-let rec playGame (gameState : char list, turn : int, humanMoveNum : int, firstMove : int, humanCharacter : char, computerCharacter : char, doesComputerGoFirst : bool) =
+let rec playGame (gameState : char list, turn : int, humanMoveNum : int, firstMove : int, humanCharacter : char, computerCharacter : char, doesComputerGoFirst : bool, isBoardTopHeavy : bool) : char list =
         displayBoardState (gameState)
 
         if (turn % 2 = 1 && doesComputerGoFirst = false) || (turn % 2 = 0 && doesComputerGoFirst = true) then
-            askForInput ()
-            let input = System.Convert.ToInt32(System.Console.ReadKey().KeyChar) - System.Convert.ToInt32('0')
-            let newGameState = humanMove (input, gameState,humanCharacter)
+            askForInput (isBoardTopHeavy)
+            let input = moveInput(isBoardTopHeavy)
+            let newGameState = humanMove (input, gameState, humanCharacter, isBoardTopHeavy)
 
             if turn = 1 then
-                playGame (newGameState, turn + 1, input, input, humanCharacter, computerCharacter,doesComputerGoFirst)
-
-            if isGameOver (newGameState,humanCharacter, computerCharacter) then
-                endGame (newGameState)
-            playGame (newGameState, turn + 1, input, firstMove, humanCharacter, computerCharacter,doesComputerGoFirst)
+                playGame (newGameState, turn + 1, input, input, humanCharacter, computerCharacter,doesComputerGoFirst, isBoardTopHeavy)
+            elif isGameOver (newGameState,humanCharacter, computerCharacter) then
+                newGameState
+            else
+                playGame (newGameState, turn + 1, input, firstMove, humanCharacter, computerCharacter,doesComputerGoFirst, isBoardTopHeavy)
         else
             let newGameState = computerMove (gameState, humanMoveNum, firstMove,humanCharacter,computerCharacter)
             if isGameOver (newGameState, humanCharacter, computerCharacter) then
-                endGame (newGameState)
-            playGame (newGameState, turn + 1, humanMoveNum, firstMove, humanCharacter, computerCharacter,doesComputerGoFirst)
+                newGameState
+            else
+                playGame (newGameState, turn + 1, humanMoveNum, firstMove, humanCharacter, computerCharacter,doesComputerGoFirst,isBoardTopHeavy)
