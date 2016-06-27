@@ -61,47 +61,45 @@ let didTieHappen (gameState : char list) : bool =
     else
         false
 
-let didOWin (gameState) : bool =
+let didHumanWin (gameState, humanCharacter : char) : bool =
     match gameState with
-    | ['O';'O';'O';_;_;_;_;_;_] -> true
-    | [_;_;_;'O';'O';'O';_;_;_] -> true
-    | [_;_;_;_;_;_;'O';'O';'O'] -> true
-    | ['O';_;_;'O';_;_;'O';_;_] -> true
-    | [_;'O';_;_;'O';_;_;'O';_] -> true
-    | [_;_;'O';_;_;'O';_;_;'O'] -> true
-    | ['O';_;_;_;'O';_;_;_;'O'] -> true
-    | [_;_;'O';_;'O';_;'O';_;_] -> true
+    | [a;b;c;_;_;_;_;_;_] when (a = humanCharacter && b = humanCharacter && c = humanCharacter) -> true
+    | [_;_;_;a;b;c;_;_;_] when (a = humanCharacter && b = humanCharacter && c = humanCharacter) -> true
+    | [_;_;_;_;_;_;a;b;c] when (a = humanCharacter && b = humanCharacter && c = humanCharacter) -> true
+    | [a;_;_;b;_;_;c;_;_] when (a = humanCharacter && b = humanCharacter && c = humanCharacter) -> true
+    | [_;a;_;_;b;_;_;c;_] when (a = humanCharacter && b = humanCharacter && c = humanCharacter) -> true
+    | [_;_;a;_;_;b;_;_;c] when (a = humanCharacter && b = humanCharacter && c = humanCharacter) -> true
+    | [a;_;_;_;b;_;_;_;c] when (a = humanCharacter && b = humanCharacter && c = humanCharacter) -> true
+    | [_;_;a;_;b;_;c;_;_] when (a = humanCharacter && b = humanCharacter && c = humanCharacter) -> true
     | _ -> false
 
-let didXWin (gameState) : bool =
+let didComputerWin (gameState, computerCharacter : char) : bool =
     match gameState with
-    | ['X';'X';'X';_;_;_;_;_;_] -> true
-    | [_;_;_;'X';'X';'X';_;_;_] -> true
-    | [_;_;_;_;_;_;'X';'X';'X'] -> true
-    | ['X';_;_;'X';_;_;'X';_;_] -> true
-    | [_;'X';_;_;'X';_;_;'X';_] -> true
-    | [_;_;'X';_;_;'X';_;_;'X'] -> true
-    | ['X';_;_;_;'X';_;_;_;'X'] -> true
-    | [_;_;'X';_;'X';_;'X';_;_] -> true
+    | [a;b;c;_;_;_;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> true
+    | [_;_;_;a;b;c;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> true
+    | [_;_;_;_;_;_;a;b;c] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> true
+    | [a;_;_;b;_;_;c;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> true
+    | [_;a;_;_;b;_;_;c;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> true
+    | [_;_;a;_;_;b;_;_;c] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> true
+    | [a;_;_;_;b;_;_;_;c] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> true
+    | [_;_;a;_;b;_;c;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> true
     | _ -> false
 
-let isGameOver (gameState : char list) : bool = 
-    if (didTieHappen(gameState) || didOWin(gameState) || didXWin(gameState)) then
+let isGameOver (gameState : char list, humanCharacter : char,computerCharacter : char) : bool = 
+    if (didTieHappen(gameState) || didHumanWin(gameState, humanCharacter) || didComputerWin(gameState, computerCharacter)) then
         true
     else
         false
 
-let rec humanMove (moveNum : int, gameState : char list) : char list =
-
+let rec humanMove (moveNum : int, gameState : char list, humanCharacter : char) : char list =
     if (moveNum = 1 || moveNum = 2 ||moveNum = 3 ||moveNum = 4 ||moveNum = 5 ||moveNum = 6 ||moveNum = 7 ||moveNum = 8 ||moveNum = 9) && gameState.[moveNum - 1] = ' '  then
-        makeMove(gameState, 'O', moveNum)
+        makeMove(gameState, humanCharacter, moveNum)
     else
         printfn "Not a legal move.  Please enter another move:"
-        humanMove (System.Convert.ToInt32(System.Console.ReadKey().KeyChar) - System.Convert.ToInt32('0'), gameState)
+        humanMove (System.Convert.ToInt32(System.Console.ReadKey().KeyChar) - System.Convert.ToInt32('0'), gameState, humanCharacter)
 
-let winGameOrBlockWin (userCharacter: char, gameState : char list) : int = 
+let checkHorizontalWins (userCharacter: char, gameState : char list) : int = 
     let mutable returnNum = -2
-    //horizontal
     for i in 0 .. 3 .. 8 do
         if(gameState.[i] = ' ' && gameState.[i+1] = userCharacter && gameState.[i+2] = userCharacter) then
             returnNum <- i
@@ -109,7 +107,10 @@ let winGameOrBlockWin (userCharacter: char, gameState : char list) : int =
             returnNum <- i + 1
         elif(gameState.[i] = userCharacter && gameState.[i+1] = userCharacter && gameState.[i+2] = ' ') then
             returnNum <- i + 2
-    //vertical
+    returnNum
+
+let checkVerticalWins (userCharacter: char, gameState : char list) : int =
+    let mutable returnNum = -2
     for j in 0 .. 2 do
         if(gameState.[j] = ' ' && gameState.[j+3] = userCharacter && gameState.[j+6] = userCharacter) then
             returnNum <- j
@@ -117,7 +118,10 @@ let winGameOrBlockWin (userCharacter: char, gameState : char list) : int =
             returnNum <- j + 3
         elif(gameState.[j] = userCharacter && gameState.[j+3] = userCharacter && gameState.[j+6] = ' ') then
             returnNum <- j + 6
-    //diagonals
+    returnNum
+
+let checkDiagonalWins (userCharacter: char, gameState : char list) : int =
+    let mutable returnNum = -2
     if(gameState.[0] = ' ' && gameState.[4] = userCharacter && gameState.[8] = userCharacter) then
         returnNum <- 0
     elif(gameState.[0] = userCharacter && gameState.[4] = ' ' && gameState.[8] = userCharacter) then
@@ -131,6 +135,16 @@ let winGameOrBlockWin (userCharacter: char, gameState : char list) : int =
         returnNum <- 4
     elif(gameState.[2] = userCharacter && gameState.[4] = userCharacter && gameState.[6] = ' ') then
         returnNum <- 6
+    returnNum
+
+let winGameOrBlockWin (userCharacter: char, gameState : char list) : int = 
+    let mutable returnNum = -2
+
+    returnNum <- checkHorizontalWins (userCharacter, gameState)
+    if(returnNum = -2) then
+        returnNum <- checkVerticalWins (userCharacter, gameState)
+        if(returnNum = -2) then
+            returnNum <- checkDiagonalWins (userCharacter, gameState)
     returnNum + 1
 
 let chooseCorner (gameState : char list) : int = 
@@ -171,55 +185,85 @@ let chooseCornerInBetween (huMove : int, gameState : char list, firstHumanMove :
     else
         -1
 
-let isFirstComputerTurn (gameState : char list) = 
+let isFirstComputerTurn (gameState : char list, humanCharacter : char) = 
     match gameState with
-    | ['O';' ';' ';' ';' ';' ';' ';' ';' '] -> true
-    | [' ';'O';' ';' ';' ';' ';' ';' ';' '] -> true
-    | [' ';' ';'O';' ';' ';' ';' ';' ';' '] -> true
-    | [' ';' ';' ';'O';' ';' ';' ';' ';' '] -> true
-    | [' ';' ';' ';' ';'O';' ';' ';' ';' '] -> true
-    | [' ';' ';' ';' ';' ';'O';' ';' ';' '] -> true
-    | [' ';' ';' ';' ';' ';' ';'O';' ';' '] -> true
-    | [' ';' ';' ';' ';' ';' ';' ';'O';' '] -> true
-    | [' ';' ';' ';' ';' ';' ';' ';' ';'O'] -> true
+    | [humanCharacter;' ';' ';' ';' ';' ';' ';' ';' '] -> true
+    | [' ';humanCharacter;' ';' ';' ';' ';' ';' ';' '] -> true
+    | [' ';' ';humanCharacter;' ';' ';' ';' ';' ';' '] -> true
+    | [' ';' ';' ';humanCharacter;' ';' ';' ';' ';' '] -> true
+    | [' ';' ';' ';' ';humanCharacter;' ';' ';' ';' '] -> true
+    | [' ';' ';' ';' ';' ';humanCharacter;' ';' ';' '] -> true
+    | [' ';' ';' ';' ';' ';' ';humanCharacter;' ';' '] -> true
+    | [' ';' ';' ';' ';' ';' ';' ';humanCharacter;' '] -> true
+    | [' ';' ';' ';' ';' ';' ';' ';' ';humanCharacter] -> true
     | _ -> false
 
-let computerMove (gameState : char list, humanMoveSpot : int, firstHumanMove : int) : char list =
+let respondToFirstMoveMiddle (gameState : char list, humanMoveSpot : int, humanCharacter : char) : int = 
+    if(humanMoveSpot = middleSquare && isFirstComputerTurn(gameState, humanCharacter)) then
+        cornerSquares.[0]
+    else 
+        -1
+
+let respondToFirstMoveCorner (gameState : char list, humanMoveSpot : int, humanCharacter : char) : int = 
+    if((humanMoveSpot = cornerSquares.[0] || humanMoveSpot = cornerSquares.[1] || humanMoveSpot = cornerSquares.[2] || humanMoveSpot = cornerSquares.[3]) && isFirstComputerTurn(gameState, humanCharacter)) then
+        middleSquare
+    else
+        -1
+
+let respondToFirstMoveSide (gameState : char list, humanCharacter : char) : int = 
+    if(isFirstComputerTurn(gameState,humanCharacter)) then
+        middleSquare
+    else
+        -1
+
+let respondToFirstMove (gameState : char list, humanMoveSpot : int, humanCharacter : char) : int =
+    let mutable returnMove = -1
+    returnMove <- respondToFirstMoveMiddle(gameState, humanMoveSpot, humanCharacter)
+    if(returnMove = -1) then
+        returnMove <- respondToFirstMoveCorner(gameState, humanMoveSpot, humanCharacter)
+        if(returnMove = -1) then
+            returnMove <- respondToFirstMoveSide(gameState, humanCharacter)
+    returnMove
+
+
+(*It looks like the two functions for anything after first move can be combined*)
+let respondToMiddleStrategy (gameState : char list, firstHumanMove : int, humanCharacter : char, computerCharacter : char) : int = 
+    let mutable returnMove = -1
+    if(firstHumanMove = middleSquare) then
+        returnMove <- winGameOrBlockWin (computerCharacter, gameState)
+        if(returnMove = -1) then
+            returnMove <- winGameOrBlockWin (humanCharacter, gameState)
+        if(returnMove = -1) then
+            returnMove <- chooseCorner (gameState)
+            if(returnMove = -1) then
+                returnMove <- chooseSide (gameState)
+    returnMove
+
+let respondToSideOrCornerStrategy (gameState : char list, humanMoveSpot : int, firstHumanMove : int, humanCharacter : char, computerCharacter : char) : int = 
+    let mutable returnMove = -1
+    returnMove <- winGameOrBlockWin (computerCharacter, gameState)
+    if(returnMove = -1) then
+        returnMove <- winGameOrBlockWin (humanCharacter, gameState)
+        if(returnMove = -1) then
+            returnMove <- chooseCornerInBetween (humanMoveSpot, gameState, firstHumanMove)
+            if(returnMove = -1) then
+                returnMove <- chooseCorner (gameState)
+                if(returnMove = -1) then
+                    returnMove <- chooseSide (gameState)
+    returnMove
+
+let computerMove (gameState : char list, humanMoveSpot : int, firstHumanMove : int, humanCharacter : char, computerCharacter : char) : char list =
     printfn "Computer move..."
     System.Threading.Thread.Sleep(1000)
     let mutable computerMove = -1
 
-    //first move middle
-    if(humanMoveSpot = middleSquare && isFirstComputerTurn(gameState)) then
-        computerMove <- cornerSquares.[0]
-    //first move corner
-    elif((humanMoveSpot = cornerSquares.[0] || humanMoveSpot = cornerSquares.[1] || humanMoveSpot = cornerSquares.[2] || humanMoveSpot = cornerSquares.[3]) && isFirstComputerTurn(gameState)) then
-        computerMove <- middleSquare
-    //first move side
-    elif(isFirstComputerTurn(gameState)) then
-        computerMove <- middleSquare
-    //first move was middle
-    elif(firstHumanMove = middleSquare) then
-        computerMove <- winGameOrBlockWin ('X', gameState)
+    computerMove <- respondToFirstMove (gameState, humanMoveSpot, humanCharacter)
+    if(computerMove = -1) then
+        computerMove <- respondToMiddleStrategy (gameState, firstHumanMove, humanCharacter, computerCharacter)
         if(computerMove = -1) then
-            computerMove <- winGameOrBlockWin ('O', gameState)
-        if(computerMove = -1) then
-            computerMove <- chooseCorner (gameState)
-            if(computerMove = -1) then
-                computerMove <- chooseSide (gameState)
-    //first move was corner or side
-    else
-        computerMove <- winGameOrBlockWin ('X', gameState)
-        if(computerMove = -1) then
-            computerMove <- winGameOrBlockWin ('O', gameState)
-        if(computerMove = -1) then
-            computerMove <- chooseCornerInBetween (humanMoveSpot, gameState, firstHumanMove)
-            if(computerMove = -1) then
-                computerMove <- chooseCorner (gameState)
-                if(computerMove = -1) then
-                    computerMove <- chooseSide (gameState)
+            computerMove <- respondToSideOrCornerStrategy (gameState, humanMoveSpot, firstHumanMove, humanCharacter, computerCharacter)
 
-    makeMove(gameState,'X',computerMove)
+    makeMove(gameState,computerCharacter,computerMove)
 
 let keepWindowOpen () =
     System.Console.ReadKey() |> ignore
@@ -231,22 +275,22 @@ let endGame (gameState : char list) =
     keepWindowOpen ()
     exit 0
 
-let rec playGame (gameState : char list, turn : int, humanMoveNum : int, firstMove : int) =
+let rec playGame (gameState : char list, turn : int, humanMoveNum : int, firstMove : int, humanCharacter : char, computerCharacter : char) =
         displayBoardState (gameState)
 
         if turn % 2 = 1 then
             askForInput ()
             let input = System.Convert.ToInt32(System.Console.ReadKey().KeyChar) - System.Convert.ToInt32('0')
-            let newGameState = humanMove (input, gameState)
+            let newGameState = humanMove (input, gameState,humanCharacter)
 
             if turn = 1 then
-                playGame (newGameState, turn + 1, input, input)
+                playGame (newGameState, turn + 1, input, input, humanCharacter, computerCharacter)
 
-            if isGameOver (newGameState) then
+            if isGameOver (newGameState,humanCharacter, computerCharacter) then
                 endGame (newGameState)
-            playGame (newGameState, turn + 1, input, firstMove)
+            playGame (newGameState, turn + 1, input, firstMove, humanCharacter, computerCharacter)
         else
-            let newGameState = computerMove (gameState, humanMoveNum, firstMove)
-            if isGameOver (newGameState) then
+            let newGameState = computerMove (gameState, humanMoveNum, firstMove,humanCharacter,computerCharacter)
+            if isGameOver (newGameState, humanCharacter, computerCharacter) then
                 endGame (newGameState)
-            playGame (newGameState, turn + 1, humanMoveNum, firstMove)
+            playGame (newGameState, turn + 1, humanMoveNum, firstMove, humanCharacter, computerCharacter)
