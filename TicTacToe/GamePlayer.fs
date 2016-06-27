@@ -216,13 +216,28 @@ let respondToFirstMoveSide (gameState : char list, humanCharacter : char) : int 
     else
         -1
 
+let isFirstMove (gamestate : char list) : bool =
+    if(gamestate = [' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' ']) then
+        true
+    else false
+
+let makeFirstMove () : int =
+    let mutable returnMove = -1
+    if(true) then
+        returnMove <- 1
+        returnMove
+    else
+        returnMove
+
 let respondToFirstMove (gameState : char list, humanMoveSpot : int, humanCharacter : char) : int =
     let mutable returnMove = -1
-    returnMove <- respondToFirstMoveMiddle(gameState, humanMoveSpot, humanCharacter)
+
     if(returnMove = -1) then
-        returnMove <- respondToFirstMoveCorner(gameState, humanMoveSpot, humanCharacter)
+        returnMove <- respondToFirstMoveMiddle(gameState, humanMoveSpot, humanCharacter)
         if(returnMove = -1) then
-            returnMove <- respondToFirstMoveSide(gameState, humanCharacter)
+            returnMove <- respondToFirstMoveCorner(gameState, humanMoveSpot, humanCharacter)
+            if(returnMove = -1) then
+                returnMove <- respondToFirstMoveSide(gameState, humanCharacter)
     returnMove
 
 
@@ -275,22 +290,22 @@ let endGame (gameState : char list) =
     keepWindowOpen ()
     exit 0
 
-let rec playGame (gameState : char list, turn : int, humanMoveNum : int, firstMove : int, humanCharacter : char, computerCharacter : char) =
+let rec playGame (gameState : char list, turn : int, humanMoveNum : int, firstMove : int, humanCharacter : char, computerCharacter : char, doesComputerGoFirst : bool) =
         displayBoardState (gameState)
 
-        if turn % 2 = 1 then
+        if (turn % 2 = 1 && doesComputerGoFirst = false) || (turn % 2 = 0 && doesComputerGoFirst = true) then
             askForInput ()
             let input = System.Convert.ToInt32(System.Console.ReadKey().KeyChar) - System.Convert.ToInt32('0')
             let newGameState = humanMove (input, gameState,humanCharacter)
 
             if turn = 1 then
-                playGame (newGameState, turn + 1, input, input, humanCharacter, computerCharacter)
+                playGame (newGameState, turn + 1, input, input, humanCharacter, computerCharacter,doesComputerGoFirst)
 
             if isGameOver (newGameState,humanCharacter, computerCharacter) then
                 endGame (newGameState)
-            playGame (newGameState, turn + 1, input, firstMove, humanCharacter, computerCharacter)
+            playGame (newGameState, turn + 1, input, firstMove, humanCharacter, computerCharacter,doesComputerGoFirst)
         else
             let newGameState = computerMove (gameState, humanMoveNum, firstMove,humanCharacter,computerCharacter)
             if isGameOver (newGameState, humanCharacter, computerCharacter) then
                 endGame (newGameState)
-            playGame (newGameState, turn + 1, humanMoveNum, firstMove, humanCharacter, computerCharacter)
+            playGame (newGameState, turn + 1, humanMoveNum, firstMove, humanCharacter, computerCharacter,doesComputerGoFirst)
