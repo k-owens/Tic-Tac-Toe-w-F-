@@ -371,15 +371,57 @@ let blockWin4X4 (gameState : char list, computerCharacter : char, humanPlayer) :
             returnNum <- blockDiagonalWin4X4(gameState,computerCharacter,humanPlayer)
     returnNum
 
-let winGame4X4 () : int = 
-    -1
+(*Need to implement to stop the one combination of moves that can win*)
+let winGame4X4 (gameState : char list, computerCharacter : char) : int = 
+    match gameState with
+    | [' ';a;b;c;_;_;_;_;_;_;_;_;_;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 1
+    | [a;' ';b;c;_;_;_;_;_;_;_;_;_;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 2
+    | [a;b;' ';c;_;_;_;_;_;_;_;_;_;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 3
+    | [a;b;c;' ';_;_;_;_;_;_;_;_;_;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 4
+    | [_;_;_;_;' ';a;b;c;_;_;_;_;_;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 5
+    | [_;_;_;_;a;' ';b;c;_;_;_;_;_;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 6
+    | [_;_;_;_;a;b;' ';c;_;_;_;_;_;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 7
+    | [_;_;_;_;a;b;c;' ';_;_;_;_;_;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 8
+    | [_;_;_;_;_;_;_;_;' ';a;b;c;_;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 9
+    | [_;_;_;_;_;_;_;_;a;' ';b;c;_;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 10
+    | [_;_;_;_;_;_;_;_;a;b;' ';c;_;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 11
+    | [_;_;_;_;_;_;_;_;a;b;c;' ';_;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 12
+    | [_;_;_;_;_;_;_;_;_;_;_;_;' ';a;b;c] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 13
+    | [_;_;_;_;_;_;_;_;_;_;_;_;a;' ';b;c] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 14
+    | [_;_;_;_;_;_;_;_;_;_;_;_;a;b;' ';c] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 15
+    | [_;_;_;_;_;_;_;_;_;_;_;_;a;b;c;' '] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 16
+    | [' ';_;_;_;a;_;_;_;b;_;_;_;c;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 1
+    | [a;_;_;_;' ';_;_;_;b;_;_;_;c;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 5
+    | [a;_;_;_;b;_;_;_;' ';_;_;_;c;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 9
+    | [a;_;_;_;b;_;_;_;c;_;_;_;' ';_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 13
+    | [_;' ';_;_;_;a;_;_;_;b;_;_;_;c;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 2
+    | [_;a;_;_;_;' ';_;_;_;b;_;_;_;c;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 6
+    | [_;a;_;_;_;b;_;_;_;' ';_;_;_;c;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 10
+    | [_;a;_;_;_;b;_;_;_;c;_;_;_;' ';_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 14
+    | [_;_;' ';_;_;_;a;_;_;_;b;_;_;_;c;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 3
+    | [_;_;a;_;_;_;' ';_;_;_;b;_;_;_;c;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 7
+    | [_;_;a;_;_;_;b;_;_;_;' ';_;_;_;c;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 11
+    | [_;_;a;_;_;_;b;_;_;_;c;_;_;_;' ';_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 15
+    | [_;_;_;' ';_;_;_;a;_;_;_;b;_;_;_;c] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 4
+    | [_;_;_;a;_;_;_;' ';_;_;_;b;_;_;_;c] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 8
+    | [_;_;_;a;_;_;_;b;_;_;_;' ';_;_;_;c] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 12
+    | [_;_;_;a;_;_;_;b;_;_;_;c;_;_;_;' '] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 16
+    | [' ';_;_;_;_;a;_;_;_;_;b;_;_;_;_;c] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 1
+    | [a;_;_;_;_;' ';_;_;_;_;b;_;_;_;_;c] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 6
+    | [a;_;_;_;_;b;_;_;_;_;' ';_;_;_;_;c] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 11
+    | [a;_;_;_;_;b;_;_;_;_;c;_;_;_;_;' '] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 16
+    | [_;_;_;' ';_;_;a;_;_;b;_;_;c;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 4
+    | [_;_;_;a;_;_;' ';_;_;b;_;_;c;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 7
+    | [_;_;_;a;_;_;b;_;_;' ';_;_;c;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 10
+    | [_;_;_;a;_;_;b;_;_;c;_;_;' ';_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 13
+    | _ -> -1
 
 let computerMove4X4 (gameState : char list, humanMoveSpot : int, firstHumanMove : int, humanCharacter : char, computerCharacter : char) : char list =
     printfn "Computer move..."
     System.Threading.Thread.Sleep(1000)
     let mutable computerMove = -1
 
-    computerMove <- winGame4X4()
+    computerMove <- winGame4X4(gameState, computerCharacter)
     if(computerMove = -1) then
         computerMove <- blockWin4X4(gameState, computerCharacter, humanCharacter)
         if(computerMove = -1) then
