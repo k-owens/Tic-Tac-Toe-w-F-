@@ -61,8 +61,8 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <None Include="App.config" />
-    <Compile Include="GamePlayer.fs" />
-    <Compile Include="UnitTests.fs" />
+    <Compile Include="GamePlayer3X3.fs" />
+    <Compile Include="GamePlayer4X4.fs" />
     <Compile Include="Driver.fs" />
     <Content Include="packages.config" />
   </ItemGroup>
@@ -72,16 +72,16 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="FsUnit.NUnit">
-      <HintPath>..\packages\FsUnit.2.2.0\lib\net45\FsUnit.NUnit.dll</HintPath>
+      <HintPath>..\packages\FsUnit.2.3.0\lib\net45\FsUnit.NUnit.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="NHamcrest">
-      <HintPath>..\packages\FsUnit.2.2.0\lib\net45\NHamcrest.dll</HintPath>
+      <HintPath>..\packages\FsUnit.2.3.0\lib\net45\NHamcrest.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.3.2.1\lib\net45\nunit.framework.dll</HintPath>
+      <HintPath>..\packages\NUnit.3.4.0\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Core" />

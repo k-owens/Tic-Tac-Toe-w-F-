@@ -1,14 +1,16 @@
 ﻿module Driver
 
 open System
-open GamePlayer
+open GamePlayer3X3
+open GamePlayer4X4
+
 
 let keepWindowOpen () =
     System.Console.ReadKey() |> ignore
 
 [<EntryPoint>]
 let main (args : string[]) = 
-    let startingBoard = [ ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' ']
+    let startingBoard = [' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' ']
     printfn "Tic-Tac-Toe"
 
     printfn "Please enter the character for your moves:"
@@ -41,7 +43,15 @@ let main (args : string[]) =
     let boardOrientation = System.Console.ReadKey().KeyChar
     let isBoardTopHeavy = (boardOrientation = '1')
 
-    displayBoardState(playGame (startingBoard, 1, -1, -1, userCharacter, compCharacter, doesHumanGoFirst,isBoardTopHeavy))
+    printfn "Would you like to play on a 3X3 board or 4X4 board? (Enter 3 for 3X3)"
+    let boardSize = System.Console.ReadKey().KeyChar
+    let isBoard3 = boardSize = '3'
+
+    if(isBoard3) then
+        displayBoardState(playGame3X3 (startingBoard, 1, -1, -1, userCharacter, compCharacter, doesHumanGoFirst,isBoardTopHeavy))
+    else
+        displayBoardState4X4(playGame4X4 (startingBoard, 1, -1, -1, userCharacter, compCharacter, doesHumanGoFirst,isBoardTopHeavy))
+
 
     printfn "The game is over.  The computer is still unbeaten."
     printfn "Enter any key to exit."
