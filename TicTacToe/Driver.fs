@@ -4,12 +4,11 @@ open System
 open GamePlayer3X3
 open GamePlayer4X4
 
-
 let keepWindowOpen () =
     System.Console.ReadKey() |> ignore
 
 [<EntryPoint>]
-let main (args : string[]) = 
+let main (args : string[]) =
     let startingBoard = [' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' ']
     printfn "Tic-Tac-Toe"
 
@@ -28,18 +27,23 @@ let main (args : string[]) =
     let doesHumanGoFirst : bool = not(whoGoesFirst = '1')
 
     printfn"If you would like the board input to look like this please type '1':"
-    printfn "7|8|9"
-    printfn "_____"
-    printfn "4|5|6"
-    printfn "_____"
-    printfn "1|2|3"
+    printfn "7|8|9            1|2|3|4"
+    printfn "_____            _______"
+    printfn "4|5|6     or     Q|W|E|R"
+    printfn "_____            _______"
+    printfn "1|2|3            A|S|D|F"
+    printfn "                 _______"
+    printfn "                 Z|X|C|V"
     printfn ""
-    printfn"Or if you would like the board input to look like this please press any other key:"
-    printfn "1|2|3"
-    printfn "_____"
-    printfn "4|5|6"
-    printfn "_____"
-    printfn "7|8|9"
+    printfn"Or if you would like the board input to be inverted please press any other key:"
+    printfn "1|2|3            Z|X|C|V"
+    printfn "_____            _______"
+    printfn "4|5|6     or     A|S|D|F"
+    printfn "_____            _______"
+    printfn "7|8|9            Q|W|E|R"
+    printfn "                 _______"
+    printfn "                 1|2|3|4"
+    printfn ""
     let boardOrientation = System.Console.ReadKey().KeyChar
     let isBoardTopHeavy = (boardOrientation = '1')
 
@@ -54,6 +58,6 @@ let main (args : string[]) =
 
 
     printfn "The game is over.  The computer is still unbeaten."
-    printfn "Enter any key to exit."
+    printfn "Enter any key to exit."*
     keepWindowOpen ()
     0
