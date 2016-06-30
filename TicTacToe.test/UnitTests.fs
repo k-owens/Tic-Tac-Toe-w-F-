@@ -489,4 +489,4 @@ let canComputerFindDiagonalWins () =
 [<Fact>]
 let canComputerMakeMove () =
     let testBoard = [' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' ']
-    Assert.Equal<char list>([' '; ' '; ' '; ' '; ' '; 'O'; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '],computerMove4X4(testBoard,1,-1,'X','O'))
+    Assert.Equal<char list>([' '; ' '; ' '; ' '; ' '; 'O'; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '],computerMove4X4(testBoard,'X','O'))

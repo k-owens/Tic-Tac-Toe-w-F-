@@ -64,7 +64,7 @@ let main (args : string[]) =
     if(isBoard3) then
         displayBoardState(playGame3X3 (startingBoard, 1, -1, -1, characterList.[0], characterList.[1], doesHumanGoFirst,isBoardTopHeavy))
     else
-        displayBoardState4X4(playGame4X4 (startingBoard, 1, -1, -1, characterList.[0], characterList.[1], doesHumanGoFirst,isBoardTopHeavy))
+        displayBoardState4X4(playGame4X4 (startingBoard,-1, characterList.[0], characterList.[1], doesHumanGoFirst,isBoardTopHeavy))
 
 
     printfn "The game is over.  The computer is still unbeaten."

@@ -413,7 +413,7 @@ let winGame4X4 (gameState : char list, computerCharacter : char) : int =
     | [_;_;_;a;_;_;b;_;_;c;_;_;' ';_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 13
     | _ -> -1
 
-let computerMove4X4 (gameState : char list, humanMoveSpot : int, firstHumanMove : int, humanCharacter : char, computerCharacter : char) : char list =
+let computerMove4X4 (gameState : char list, humanCharacter : char, computerCharacter : char) : char list =
     printfn "Computer move..."
     System.Threading.Thread.Sleep(1000)
     let mutable computerMove = -1
@@ -430,7 +430,7 @@ let computerMove4X4 (gameState : char list, humanMoveSpot : int, firstHumanMove 
 
     makeMove4X4(gameState,computerCharacter,computerMove)
 
-let rec playGame4X4 (gameState : char list, turn : int, humanMoveNum : int, firstMove : int, humanCharacter : char, computerCharacter : char, doesComputerGoFirst : bool, isBoardTopHeavy : bool) : char list =
+let rec playGame4X4 (gameState : char list, turn : int, humanCharacter : char, computerCharacter : char, doesComputerGoFirst : bool, isBoardTopHeavy : bool) : char list =
         displayBoardState4X4 (gameState)
 
         if (turn % 2 = 1 && doesComputerGoFirst = false) || (turn % 2 = 0 && doesComputerGoFirst = true) then
@@ -439,14 +439,14 @@ let rec playGame4X4 (gameState : char list, turn : int, humanMoveNum : int, firs
             let newGameState = humanMove4X4 (input, gameState, humanCharacter, isBoardTopHeavy)
 
             if turn = 1 then
-                playGame4X4 (newGameState, turn + 1, input, input, humanCharacter, computerCharacter,doesComputerGoFirst, isBoardTopHeavy)
+                playGame4X4 (newGameState, turn + 1, humanCharacter, computerCharacter,doesComputerGoFirst, isBoardTopHeavy)
             elif isGameOver4X4 (newGameState,humanCharacter, computerCharacter) then
                 newGameState
             else
-                playGame4X4 (newGameState, turn + 1, input, firstMove, humanCharacter, computerCharacter,doesComputerGoFirst, isBoardTopHeavy)
+                playGame4X4 (newGameState, turn + 1, humanCharacter, computerCharacter,doesComputerGoFirst, isBoardTopHeavy)
         else
-            let newGameState = computerMove4X4 (gameState, humanMoveNum, firstMove,humanCharacter,computerCharacter)
+            let newGameState = computerMove4X4 (gameState,humanCharacter,computerCharacter)
             if isGameOver4X4 (newGameState, humanCharacter, computerCharacter) then
                 newGameState
             else
-                playGame4X4 (newGameState, turn + 1, humanMoveNum, firstMove, humanCharacter, computerCharacter,doesComputerGoFirst,isBoardTopHeavy)
+                playGame4X4 (newGameState, turn + 1, humanCharacter, computerCharacter,doesComputerGoFirst,isBoardTopHeavy)
