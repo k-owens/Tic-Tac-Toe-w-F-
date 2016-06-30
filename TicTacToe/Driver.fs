@@ -7,11 +7,7 @@ open GamePlayer4X4
 let keepWindowOpen () =
     System.Console.ReadKey() |> ignore
 
-[<EntryPoint>]
-let main (args : string[]) =
-    let startingBoard = [' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' ']
-    printfn "Tic-Tac-Toe"
-
+let rec getCharacterInput () : char list =
     printfn "Please enter the character for your moves:"
     let userCharacter = System.Console.ReadKey().KeyChar
     printfn ""
@@ -19,6 +15,20 @@ let main (args : string[]) =
     printfn "Please enter the character for the computer's moves:"
     let compCharacter = System.Console.ReadKey().KeyChar
     printfn ""
+
+    if(not(userCharacter = ' ' || compCharacter = ' ' || userCharacter = '\r' || compCharacter = '\r' || userCharacter = compCharacter)) then
+        let returnChars = [userCharacter; compCharacter]
+        returnChars
+    else
+        printfn "Invalid characters.  Please do not use the same character for both, use spaces, or the enter key."
+        getCharacterInput()
+
+[<EntryPoint>]
+let main (args : string[]) =
+    let startingBoard = [' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' ']
+    printfn "Tic-Tac-Toe"
+
+    let characterList = getCharacterInput()
 
 
     printfn "You can go first or the computer can go first.  If you would like to go first please enter '1', otherwise enter any other key."
@@ -47,17 +57,17 @@ let main (args : string[]) =
     let boardOrientation = System.Console.ReadKey().KeyChar
     let isBoardTopHeavy = (boardOrientation = '1')
 
-    printfn "Would you like to play on a 3X3 board or 4X4 board? (Enter 3 for 3X3)"
+    printfn "Would you like to play on a 3X3 board or 4X4 board? Enter '3' for 3X3."
     let boardSize = System.Console.ReadKey().KeyChar
     let isBoard3 = boardSize = '3'
 
     if(isBoard3) then
-        displayBoardState(playGame3X3 (startingBoard, 1, -1, -1, userCharacter, compCharacter, doesHumanGoFirst,isBoardTopHeavy))
+        displayBoardState(playGame3X3 (startingBoard, 1, -1, -1, characterList.[0], characterList.[1], doesHumanGoFirst,isBoardTopHeavy))
     else
-        displayBoardState4X4(playGame4X4 (startingBoard, 1, -1, -1, userCharacter, compCharacter, doesHumanGoFirst,isBoardTopHeavy))
+        displayBoardState4X4(playGame4X4 (startingBoard, 1, -1, -1, characterList.[0], characterList.[1], doesHumanGoFirst,isBoardTopHeavy))
 
 
     printfn "The game is over.  The computer is still unbeaten."
-    printfn "Enter any key to exit."*
+    printfn "Enter any key to exit."
     keepWindowOpen ()
     0

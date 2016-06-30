@@ -12,10 +12,6 @@ let canGameBeStarted () =
 [<Fact>]
 let canGameBePlayed () =
     printfn ""
-    //
-    //let testBoard : char list = [' ';' ';' ';' ';' ';' ';' ';' ';' ']
-
-    //playGame(testBoard,1,1,1)
 
 [<Fact>]
 let canMakeMoveSpot1 () =
@@ -328,6 +324,12 @@ let canAskForInputOnInvertedBoard4X4 () =
     askForInput4X4 (false)    
 
 [<Fact>]
+let canGameEnd4X4 () =
+    let testBoard : char list = ['O';'X';'O';'O';'X';'O';'X';'O';'X';'O';'X';'O';'O';'X';'O';'X';'O';]
+
+    Assert.True(isGameOver4X4(testBoard,'O','X'))
+
+[<Fact>]
 let canTie4X4 () = 
     let testBoard : char list = ['O';'X';'O';'O';'X';'O';'X';'O';'X';'O';'X';'O';'O';'X';'O';'X';'O';]
 
@@ -338,3 +340,153 @@ let willTieHappenBeforeBoardIsFull4X4 () =
     let testBoard : char list = [' ';'X';'O';'O';'X';'O';'X';'O';'X';' ';'X';'O';'O';'X';'O';'X';'O';]
 
     Assert.True(not(didTieHappen4X4(testBoard)))
+
+[<Fact>]
+let canSomeoneWin4X4 () = 
+    let testBoard1 = ['O';'O';'O';'O';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' '] 
+    let testBoard2 = [' ';' ';' ';' ';'O';'O';'O';'O';' ';' ';' ';' ';' ';' ';' ';' '] 
+    let testBoard3 = [' ';' ';' ';' ';' ';' ';' ';' ';'O';'O';'O';'O';' ';' ';' ';' '] 
+    let testBoard4 = [' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';'O';'O';'O';'O'] 
+    let testBoard5 = ['O';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' '] 
+    let testBoard6 = [' ';'O';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';'O';' ';' '] 
+    let testBoard7 = [' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';'O';' '] 
+    let testBoard8 = [' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';'O'] 
+    let testBoard9 = ['O';' ';' ';' ';' ';'O';' ';' ';' ';' ';'O';' ';' ';' ';' ';'O'] 
+    let testBoard10 = [' ';' ';' ';'O';' ';' ';'O';' ';' ';'O';' ';' ';'O';' ';' ';' ']
+
+    Assert.True(didSomeoneWin4X4(testBoard1, 'O'))
+    Assert.True(didSomeoneWin4X4(testBoard2, 'O'))
+    Assert.True(didSomeoneWin4X4(testBoard3, 'O'))
+    Assert.True(didSomeoneWin4X4(testBoard4, 'O'))
+    Assert.True(didSomeoneWin4X4(testBoard5, 'O'))
+    Assert.True(didSomeoneWin4X4(testBoard6, 'O'))
+    Assert.True(didSomeoneWin4X4(testBoard7, 'O'))
+    Assert.True(didSomeoneWin4X4(testBoard8, 'O'))
+    Assert.True(didSomeoneWin4X4(testBoard9, 'O'))
+    Assert.True(didSomeoneWin4X4(testBoard10, 'O'))
+
+[<Fact>]
+let canHumanMakeMove4X4 () = 
+    let testBoard = [' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' ']
+    Assert.Equal<char list>(['O'; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '],humanMove4X4(1,testBoard,'O',true))
+
+[<Fact>]
+let canComputerChooseMiddleSquare4X4 () =
+    let testBoard = [' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' ']
+
+    Assert.Equal<int>(6,chooseMiddle4X4(testBoard))
+
+[<Fact>]
+let canComputerChooseCornerSquare4X4 () =
+    let testBoard = [' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' ']
+
+    Assert.Equal<int>(1,chooseCorner4X4(testBoard))
+
+[<Fact>]
+let canComputerChooseSideSquare4X4 () =
+    let testBoard = [' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' ']
+
+    Assert.Equal<int>(2,chooseSide4X4(testBoard))
+
+[<Fact>]
+let canComputerFindHorizontalWins4X4 () =
+    let testBoard1 = [' ';'O';'O';'O';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ']
+    let testBoard2 = ['O';' ';'O';'O';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ']
+    let testBoard3 = ['O';'O';' ';'O';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ']
+    let testBoard4 = ['O';'O';'O';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ']
+    let testBoard5 = [' ';' ';' ';' ';' ';'O';'O';'O';' ';' ';' ';' ';' ';' ';' ';' ']
+    let testBoard6 = [' ';' ';' ';' ';'O';' ';'O';'O';' ';' ';' ';' ';' ';' ';' ';' ']
+    let testBoard7 = [' ';' ';' ';' ';'O';'O';' ';'O';' ';' ';' ';' ';' ';' ';' ';' ']
+    let testBoard8 = [' ';' ';' ';' ';'O';'O';'O';' ';' ';' ';' ';' ';' ';' ';' ';' ']
+    let testBoard9 = [' ';' ';' ';' ';' ';' ';' ';' ';' ';'O';'O';'O';' ';' ';' ';' ']
+    let testBoard10 = [' ';' ';' ';' ';' ';' ';' ';' ';'O';' ';'O';'O';' ';' ';' ';' ']
+    let testBoard11 = [' ';' ';' ';' ';' ';' ';' ';' ';'O';'O';' ';'O';' ';' ';' ';' ']
+    let testBoard12 = [' ';' ';' ';' ';' ';' ';' ';' ';'O';'O';'O';' ';' ';' ';' ';' ']
+    let testBoard13 = [' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';'O';'O';'O']
+    let testBoard14 = [' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';'O';' ';'O';'O']
+    let testBoard15 = [' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';'O';'O';' ';'O']
+    let testBoard16 = [' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';'O';'O';'O';' ']
+    let testBoard17 = [' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';'O';'O';' ';' ']
+
+    Assert.Equal<int>(1,checkHorizontalWins4X4(testBoard1,'O'))
+    Assert.Equal<int>(2,checkHorizontalWins4X4(testBoard2,'O'))
+    Assert.Equal<int>(3,checkHorizontalWins4X4(testBoard3,'O'))
+    Assert.Equal<int>(4,checkHorizontalWins4X4(testBoard4,'O'))
+    Assert.Equal<int>(5,checkHorizontalWins4X4(testBoard5,'O'))
+    Assert.Equal<int>(6,checkHorizontalWins4X4(testBoard6,'O'))
+    Assert.Equal<int>(7,checkHorizontalWins4X4(testBoard7,'O'))
+    Assert.Equal<int>(8,checkHorizontalWins4X4(testBoard8,'O'))
+    Assert.Equal<int>(9,checkHorizontalWins4X4(testBoard9,'O'))
+    Assert.Equal<int>(10,checkHorizontalWins4X4(testBoard10,'O'))
+    Assert.Equal<int>(11,checkHorizontalWins4X4(testBoard11,'O'))
+    Assert.Equal<int>(12,checkHorizontalWins4X4(testBoard12,'O'))
+    Assert.Equal<int>(13,checkHorizontalWins4X4(testBoard13,'O'))
+    Assert.Equal<int>(14,checkHorizontalWins4X4(testBoard14,'O'))
+    Assert.Equal<int>(15,checkHorizontalWins4X4(testBoard15,'O'))
+    Assert.Equal<int>(16,checkHorizontalWins4X4(testBoard16,'O'))
+    Assert.Equal<int>(-1,checkHorizontalWins4X4(testBoard17,'O'))
+
+[<Fact>]
+let canComputerFindVerticalWins4X4 () =
+    let testBoard1 = [' ';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ']
+    let testBoard2 = [' ';' ';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ']
+    let testBoard3 = [' ';' ';' ';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';'O';' ']
+    let testBoard4 = [' ';' ';' ';' ';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';'O']
+    let testBoard5 = ['O';' ';' ';' ';' ';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ']
+    let testBoard6 = [' ';'O';' ';' ';' ';' ';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ']
+    let testBoard7 = [' ';' ';'O';' ';' ';' ';' ';' ';' ';' ';'O';' ';' ';' ';'O';' ']
+    let testBoard8 = [' ';' ';' ';'O';' ';' ';' ';' ';' ';' ';' ';'O';' ';' ';' ';'O']
+    let testBoard9 = ['O';' ';' ';' ';'O';' ';' ';' ';' ';' ';' ';' ';'O';' ';' ';' ']
+    let testBoard10 = [' ';'O';' ';' ';' ';'O';' ';' ';' ';' ';' ';' ';' ';'O';' ';' ']
+    let testBoard11 = [' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';' ';' ';' ';' ';'O';' ']
+    let testBoard12 = [' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';' ';' ';' ';' ';'O']
+    let testBoard13 = ['O';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';' ';' ';' ';' ']
+    let testBoard14 = [' ';'O';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';' ';' ';' ']
+    let testBoard15 = [' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';' ';' ']
+    let testBoard16 = [' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';' ']
+    let testBoard17 = [' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';' ';' ';' ';' ';' ']
+
+    Assert.Equal<int>(1,checkVerticalWins4X4(testBoard1, 'O'))
+    Assert.Equal<int>(2,checkVerticalWins4X4(testBoard2, 'O'))
+    Assert.Equal<int>(3,checkVerticalWins4X4(testBoard3, 'O'))
+    Assert.Equal<int>(4,checkVerticalWins4X4(testBoard4, 'O'))
+    Assert.Equal<int>(5,checkVerticalWins4X4(testBoard5, 'O'))
+    Assert.Equal<int>(6,checkVerticalWins4X4(testBoard6, 'O'))
+    Assert.Equal<int>(7,checkVerticalWins4X4(testBoard7, 'O'))
+    Assert.Equal<int>(8,checkVerticalWins4X4(testBoard8, 'O'))
+    Assert.Equal<int>(9,checkVerticalWins4X4(testBoard9, 'O'))
+    Assert.Equal<int>(10,checkVerticalWins4X4(testBoard10, 'O'))
+    Assert.Equal<int>(11,checkVerticalWins4X4(testBoard11, 'O'))
+    Assert.Equal<int>(12,checkVerticalWins4X4(testBoard12, 'O'))
+    Assert.Equal<int>(13,checkVerticalWins4X4(testBoard13, 'O'))
+    Assert.Equal<int>(14,checkVerticalWins4X4(testBoard14, 'O'))
+    Assert.Equal<int>(15,checkVerticalWins4X4(testBoard15, 'O'))
+    Assert.Equal<int>(16,checkVerticalWins4X4(testBoard16, 'O'))
+    Assert.Equal<int>(-1,checkVerticalWins4X4(testBoard17, 'O'))
+
+[<Fact>]
+let canComputerFindDiagonalWins () =
+    let testBoard1 = [' ';' ';' ';' ';' ';'O';' ';' ';' ';' ';'O';' ';' ';' ';' ';'O']
+    let testBoard2 = ['O';' ';' ';' ';' ';' ';' ';' ';' ';' ';'O';' ';' ';' ';' ';'O']
+    let testBoard3 = ['O';' ';' ';' ';' ';'O';' ';' ';' ';' ';' ';' ';' ';' ';' ';'O']
+    let testBoard4 = ['O';' ';' ';' ';' ';'O';' ';' ';' ';' ';'O';' ';' ';' ';' ';' ']
+    let testBoard5 = [' ';' ';' ';' ';' ';' ';'O';' ';' ';'O';' ';' ';'O';' ';' ';' ']
+    let testBoard6 = [' ';' ';' ';'O';' ';' ';' ';' ';' ';'O';' ';' ';'O';' ';' ';' ']
+    let testBoard7 = [' ';' ';' ';'O';' ';' ';'O';' ';' ';' ';' ';' ';'O';' ';' ';' ']
+    let testBoard8 = [' ';' ';' ';'O';' ';' ';'O';' ';' ';'O';' ';' ';' ';' ';' ';' ']
+    let testBoard9 = [' ';' ';' ';' ';' ';' ';'O';' ';' ';'O';' ';' ';' ';' ';' ';' ']
+
+    Assert.Equal<int>(1,checkDiagonalWins4X4(testBoard1,'O'))
+    Assert.Equal<int>(6,checkDiagonalWins4X4(testBoard2,'O'))
+    Assert.Equal<int>(11,checkDiagonalWins4X4(testBoard3,'O'))
+    Assert.Equal<int>(16,checkDiagonalWins4X4(testBoard4,'O'))
+    Assert.Equal<int>(4,checkDiagonalWins4X4(testBoard5,'O'))
+    Assert.Equal<int>(7,checkDiagonalWins4X4(testBoard6,'O'))
+    Assert.Equal<int>(10,checkDiagonalWins4X4(testBoard7,'O'))
+    Assert.Equal<int>(13,checkDiagonalWins4X4(testBoard8,'O'))
+    Assert.Equal<int>(-1,checkDiagonalWins4X4(testBoard9,'O'))
+
+[<Fact>]
+let canComputerMakeMove () =
+    let testBoard = [' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' ']
+    Assert.Equal<char list>([' '; ' '; ' '; ' '; ' '; 'O'; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '],computerMove4X4(testBoard,1,-1,'X','O'))

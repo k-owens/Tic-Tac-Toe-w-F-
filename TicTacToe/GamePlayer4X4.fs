@@ -107,7 +107,7 @@ let didSomeoneWin4X4 (gameState, playerCharacter : char) : bool =
     | [a;_;_;_;b;_;_;_;c;_;_;_;d;_;_;_] when (a = playerCharacter && b = playerCharacter && c = playerCharacter && d = playerCharacter) -> true
     | [_;a;_;_;_;b;_;_;_;c;_;_;_;d;_;_] when (a = playerCharacter && b = playerCharacter && c = playerCharacter && d = playerCharacter) -> true
     | [_;_;a;_;_;_;b;_;_;_;c;_;_;_;d;_] when (a = playerCharacter && b = playerCharacter && c = playerCharacter && d = playerCharacter) -> true
-    | [_;_;_;a;_;_;b;_;_;_;_;c;_;_;_;d] when (a = playerCharacter && b = playerCharacter && c = playerCharacter && d = playerCharacter) -> true
+    | [_;_;_;a;_;_;_;b;_;_;_;c;_;_;_;d] when (a = playerCharacter && b = playerCharacter && c = playerCharacter && d = playerCharacter) -> true
     | [a;_;_;_;_;b;_;_;_;_;c;_;_;_;_;d] when (a = playerCharacter && b = playerCharacter && c = playerCharacter && d = playerCharacter) -> true
     | [_;_;_;a;_;_;b;_;_;c;_;_;d;_;_;_] when (a = playerCharacter && b = playerCharacter && c = playerCharacter && d = playerCharacter) -> true
     | _ -> false
@@ -198,7 +198,6 @@ let rec humanMove4X4 (moveNum : int, gameState : char list, humanCharacter : cha
     if (moveNum = 1 || moveNum = 2 ||moveNum = 3 ||moveNum = 4 ||moveNum = 5 ||moveNum = 6 ||moveNum = 7 ||moveNum = 8 ||moveNum = 9 ||moveNum = 10 ||moveNum = 11 ||moveNum = 12 ||moveNum = 13 ||moveNum = 14 ||moveNum = 15 ||moveNum = 16) && gameState.[moveNum - 1] = ' '  then
         makeMove4X4(gameState, humanCharacter, moveNum)
     else
-        (*Dependencies*)
         printfn "Not a legal move.  Please input a new move:"
         humanMove4X4 (moveInput4X4(isBoardTopHeavy), gameState, humanCharacter, isBoardTopHeavy)
 
@@ -213,7 +212,7 @@ let chooseMiddle4X4 (gameState : char list) : int =
         middleSquares.[3]
     else
         -1
-        
+      
 let chooseCorner4X4 (gameState : char list) : int =
     if (gameState.[cornerSquares.[0] - 1] = ' ') then
         cornerSquares.[0]
@@ -245,7 +244,6 @@ let chooseSide4X4 (gameState : char list) : int =
         sideSquares.[7]
     else
         -1
-
 let checkHorizontalWins4X4 (gameState : char list, player : char) : int =
     match gameState with
     | [' ';a;b;c;_;_;_;_;_;_;_;_;_;_;_;_] when (a = player && b = player && c = player) -> 1
@@ -371,7 +369,6 @@ let blockWin4X4 (gameState : char list, computerCharacter : char, humanPlayer) :
             returnNum <- blockDiagonalWin4X4(gameState,computerCharacter,humanPlayer)
     returnNum
 
-(*Need to implement to stop the one combination of moves that can win*)
 let winGame4X4 (gameState : char list, computerCharacter : char) : int = 
     match gameState with
     | [' ';a;b;c;_;_;_;_;_;_;_;_;_;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 1

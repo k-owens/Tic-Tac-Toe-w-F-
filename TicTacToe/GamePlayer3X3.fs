@@ -142,7 +142,6 @@ let rec humanMove (moveNum : int, gameState : char list, humanCharacter : char, 
     if (moveNum = 1 || moveNum = 2 ||moveNum = 3 ||moveNum = 4 ||moveNum = 5 ||moveNum = 6 ||moveNum = 7 ||moveNum = 8 ||moveNum = 9) && gameState.[moveNum - 1] = ' '  then
         makeMove(gameState, humanCharacter, moveNum)
     else
-        (*Dependencies*)
         printfn "Not a legal move.  Please input a new move:"
         humanMove (moveInput(isBoardTopHeavy), gameState, humanCharacter, isBoardTopHeavy)
 
