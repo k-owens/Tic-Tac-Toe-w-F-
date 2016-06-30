@@ -313,6 +313,22 @@ let areTwoSelectedByHuman4X4 (gameState : char list, player: char, check1, check
     else
         false
 
+let areThreeSelectedByHuman4X4 (gameState : char list, player: char, check1, check2, check3, check4) : bool = 
+    let mutable x = 0
+    if(gameState.[check1 - 1] = player) then
+        x <- x + 1
+    if(gameState.[check2 - 1] = player) then
+        x <- x + 1
+    if(gameState.[check3 - 1] = player) then
+        x <- x + 1
+    if(gameState.[check4 - 1] = player) then
+        x <- x + 1
+
+    if(x > 2) then
+        true
+    else
+        false
+
 let selectBlank4X4 (gameState : char list, computerCharacter: char, check1, check2, check3, check4) : int =
     if(gameState.[check1 - 1] = ' ' && not(gameState.[check2 - 1] = computerCharacter) && not(gameState.[check3 - 1] = computerCharacter) && not(gameState.[check4 - 1] = computerCharacter)) then
         check1
@@ -369,6 +385,50 @@ let blockWin4X4 (gameState : char list, computerCharacter : char, humanPlayer) :
             returnNum <- blockDiagonalWin4X4(gameState,computerCharacter,humanPlayer)
     returnNum
 
+let blockThreeHorizontalWin4X4 (gameState : char list, computerCharacter : char, player : char) : int = 
+    let mutable returnNum = -1
+
+    if(areThreeSelectedByHuman4X4(gameState,player,1,2,3,4)) then
+        returnNum <- selectBlank4X4(gameState,computerCharacter,1,2,3,4)
+    if(returnNum = -1 && areThreeSelectedByHuman4X4(gameState,player,5,6,7,8)) then
+        returnNum <- selectBlank4X4(gameState,computerCharacter,5,6,7,8)
+    if(returnNum = -1 && areThreeSelectedByHuman4X4(gameState,player,9,10,11,12)) then
+        returnNum <- selectBlank4X4(gameState,computerCharacter,9,10,11,12)
+    if(returnNum = -1 && areThreeSelectedByHuman4X4(gameState,player,13,14,15,16)) then
+        returnNum <- selectBlank4X4(gameState,computerCharacter,13,14,15,16)
+    returnNum
+
+let blockThreeVerticalWin4X4 (gameState : char list, computerCharacter : char, player : char) : int = 
+    let mutable returnNum = -1
+
+    if(areThreeSelectedByHuman4X4(gameState,player,1,5,9,13)) then
+        returnNum <- selectBlank4X4(gameState,computerCharacter,1,5,9,13)
+    if(returnNum = -1 && areThreeSelectedByHuman4X4(gameState,player,2,6,10,14)) then
+        returnNum <- selectBlank4X4(gameState,computerCharacter,2,6,10,14)
+    if(returnNum = -1 && areThreeSelectedByHuman4X4(gameState,player,3,7,11,15)) then
+        returnNum <- selectBlank4X4(gameState,computerCharacter,3,7,11,15)
+    if(returnNum = -1 && areThreeSelectedByHuman4X4(gameState,player,4,8,12,16)) then
+        returnNum <- selectBlank4X4(gameState,computerCharacter,4,8,12,16)
+    returnNum
+
+let blockThreeDiagonalWin4X4 (gameState : char list, computerCharacter : char, player : char) : int = 
+    let mutable returnNum = -1
+
+    if(areThreeSelectedByHuman4X4(gameState,player,1,6,11,16)) then
+        returnNum <- selectBlank4X4(gameState,computerCharacter,1,6,11,16)
+    if(returnNum = -1 && areThreeSelectedByHuman4X4(gameState,player,4,7,10,13)) then
+        returnNum <- selectBlank4X4(gameState,computerCharacter,4,7,10,13)
+    returnNum
+
+let blockThreeWin4X4 (gameState : char list, computerCharacter : char, humanPlayer) : int =
+    let mutable returnNum = -1
+    returnNum <- blockThreeHorizontalWin4X4(gameState,computerCharacter,humanPlayer)
+    if(returnNum = -1) then
+        returnNum <- blockThreeVerticalWin4X4(gameState,computerCharacter,humanPlayer)
+        if(returnNum = -1) then
+            returnNum <- blockThreeDiagonalWin4X4(gameState,computerCharacter,humanPlayer)
+    returnNum
+
 let winGame4X4 (gameState : char list, computerCharacter : char) : int = 
     match gameState with
     | [' ';a;b;c;_;_;_;_;_;_;_;_;_;_;_;_] when (a = computerCharacter && b = computerCharacter && c = computerCharacter) -> 1
@@ -420,13 +480,15 @@ let computerMove4X4 (gameState : char list, humanCharacter : char, computerChara
 
     computerMove <- winGame4X4(gameState, computerCharacter)
     if(computerMove = -1) then
-        computerMove <- blockWin4X4(gameState, computerCharacter, humanCharacter)
+        computerMove <- blockThreeWin4X4(gameState,computerCharacter,humanCharacter)
         if(computerMove = -1) then
-            computerMove <- chooseMiddle4X4(gameState)
+            computerMove <- blockWin4X4(gameState, computerCharacter, humanCharacter)
             if(computerMove = -1) then
-                computerMove <- chooseCorner4X4(gameState)
+                computerMove <- chooseMiddle4X4(gameState)
                 if(computerMove = -1) then
-                    computerMove <- chooseSide4X4(gameState)
+                    computerMove <- chooseCorner4X4(gameState)
+                    if(computerMove = -1) then
+                        computerMove <- chooseSide4X4(gameState)
 
     makeMove4X4(gameState,computerCharacter,computerMove)
 

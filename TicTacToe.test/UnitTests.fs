@@ -1,17 +1,8 @@
-﻿//namespace TicTacToe.test
-module UnitTests
+﻿module UnitTests
 
 open Xunit
 open GamePlayer3X3
 open GamePlayer4X4
-
-[<Fact>]
-let canGameBeStarted () =
-    printfn ""
-
-[<Fact>]
-let canGameBePlayed () =
-    printfn ""
 
 [<Fact>]
 let canMakeMoveSpot1 () =
