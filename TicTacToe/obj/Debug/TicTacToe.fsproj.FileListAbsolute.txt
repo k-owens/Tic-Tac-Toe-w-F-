@@ -6,20 +6,30 @@
 \\pekinfp03\systems$\faia0634\ko87132\my documents\visual studio 2015\Projects\TicTacToe\TicTacToe\bin\Debug\FSharp.Core.xml
 \\pekinfp03\systems$\faia0634\ko87132\my documents\visual studio 2015\Projects\TicTacToe\TicTacToe\obj\Debug\TicTacToe.exe
 \\pekinfp03\systems$\faia0634\ko87132\my documents\visual studio 2015\Projects\TicTacToe\TicTacToe\obj\Debug\TicTacToe.pdb
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\xunit.abstractions.dll
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\xunit.runner.visualstudio.testadapter.dll
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\xunit.runner.utility.desktop.dll
 C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\TicTacToe.exe.config
 C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\TicTacToe.XML
 C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\TicTacToe.exe
 C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\TicTacToe.pdb
 C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\FSharp.Core.dll
-C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\FSharp.Core.xml
-C:\gitwork\TicTacToeF#\TicTacToe\obj\Debug\TicTacToe.exe
-C:\gitwork\TicTacToeF#\TicTacToe\obj\Debug\TicTacToe.pdb
-C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
-C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
 C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\FsUnit.NUnit.dll
 C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\NHamcrest.dll
 C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\nunit.framework.dll
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\xunit.assert.dll
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\xunit.core.dll
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\xunit.execution.desktop.dll
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\FSharp.Core.xml
 C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\FsUnit.NUnit.pdb
 C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\FsUnit.NUnit.xml
 C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\NHamcrest.pdb
 C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\nunit.framework.xml
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\xunit.assert.pdb
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\xunit.assert.xml
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\xunit.core.pdb
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\xunit.core.xml
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\xunit.execution.desktop.pdb
+C:\gitwork\TicTacToeF#\TicTacToe\bin\Debug\xunit.execution.desktop.xml
+C:\gitwork\TicTacToeF#\TicTacToe\obj\Debug\TicTacToe.exe
+C:\gitwork\TicTacToeF#\TicTacToe\obj\Debug\TicTacToe.pdb
