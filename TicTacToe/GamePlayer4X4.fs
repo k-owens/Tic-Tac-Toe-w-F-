@@ -1,5 +1,5 @@
 ﻿module GamePlayer4X4
-
+(*
 let middleSquares = [6;7;10;11]
 let cornerSquares = [1;4;13;16]
 let sideSquares = [2;3;5;8;9;12;14;15]
@@ -511,4 +511,4 @@ let rec playGame4X4 (gameState : char list, turn : int, humanCharacter : char, c
             if isGameOver4X4 (newGameState, humanCharacter, computerCharacter) then
                 newGameState
             else
-                playGame4X4 (newGameState, turn + 1, humanCharacter, computerCharacter,doesComputerGoFirst,isBoardTopHeavy)
+                playGame4X4 (newGameState, turn + 1, humanCharacter, computerCharacter,doesComputerGoFirst,isBoardTopHeavy)*)

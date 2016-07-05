@@ -1,40 +1,8 @@
 ﻿module GamePlayer3X3
-
+(*
 let middleSquare = 5
 let outsideSquares = [ 2; 4; 6; 8 ]
 let cornerSquares = [ 1; 3; 7; 9 ]
-
-let makeMove (gameState : char list, player : char, place : int) : char list = 
-    if(gameState.[place-1] = ' ') then
-        if (place = 1) then
-            let newGameState = [player;gameState.[1];gameState.[2];gameState.[3];gameState.[4];gameState.[5];gameState.[6];gameState.[7];gameState.[8]]
-            newGameState
-        elif (place = 2) then
-            let newGameState = [gameState.[0];player;gameState.[2];gameState.[3];gameState.[4];gameState.[5];gameState.[6];gameState.[7];gameState.[8]]
-            newGameState
-        elif (place = 3) then
-            let newGameState = [gameState.[0];gameState.[1];player;gameState.[3];gameState.[4];gameState.[5];gameState.[6];gameState.[7];gameState.[8]]
-            newGameState
-        elif (place = 4) then
-            let newGameState = [gameState.[0];gameState.[1];gameState.[2];player;gameState.[4];gameState.[5];gameState.[6];gameState.[7];gameState.[8]]
-            newGameState
-        elif (place = 5) then
-            let newGameState = [gameState.[0];gameState.[1];gameState.[2];gameState.[3];player;gameState.[5];gameState.[6];gameState.[7];gameState.[8]]
-            newGameState
-        elif (place = 6) then
-            let newGameState = [gameState.[0];gameState.[1];gameState.[2];gameState.[3];gameState.[4];player;gameState.[6];gameState.[7];gameState.[8]]
-            newGameState
-        elif (place = 7) then
-            let newGameState = [gameState.[0];gameState.[1];gameState.[2];gameState.[3];gameState.[4];gameState.[5];player;gameState.[7];gameState.[8]]
-            newGameState
-        elif (place = 8) then
-            let newGameState = [gameState.[0];gameState.[1];gameState.[2];gameState.[3];gameState.[4];gameState.[5];gameState.[6];player;gameState.[8]]
-            newGameState
-        else
-            let newGameState = [gameState.[0];gameState.[1];gameState.[2];gameState.[3];gameState.[4];gameState.[5];gameState.[6];gameState.[7];player]
-            newGameState
-    else
-    gameState
 
 let displayBoardState (gameState : char list) =
         printfn ""
@@ -65,30 +33,6 @@ let askForInput (isBoardTopHeavy : bool) : int =
         printfn "7|8|9"
         printfn ""
     0
-
-let didTieHappen (gameState : char list) : bool = 
-    if(not(gameState.[0] = ' ') && not(gameState.[1] = ' ') && not(gameState.[2] = ' ') && not(gameState.[3] = ' ') && not(gameState.[4] = ' ') && not(gameState.[5] = ' ') && not(gameState.[6] = ' ') && not(gameState.[7] = ' ') && not(gameState.[8] = ' ')) then
-        true
-    else
-        false
-
-let didSomeoneWin (gameState, playerCharacter : char) : bool =
-    match gameState with
-    | [a;b;c;_;_;_;_;_;_] when (a = playerCharacter && b = playerCharacter && c = playerCharacter) -> true
-    | [_;_;_;a;b;c;_;_;_] when (a = playerCharacter && b = playerCharacter && c = playerCharacter) -> true
-    | [_;_;_;_;_;_;a;b;c] when (a = playerCharacter && b = playerCharacter && c = playerCharacter) -> true
-    | [a;_;_;b;_;_;c;_;_] when (a = playerCharacter && b = playerCharacter && c = playerCharacter) -> true
-    | [_;a;_;_;b;_;_;c;_] when (a = playerCharacter && b = playerCharacter && c = playerCharacter) -> true
-    | [_;_;a;_;_;b;_;_;c] when (a = playerCharacter && b = playerCharacter && c = playerCharacter) -> true
-    | [a;_;_;_;b;_;_;_;c] when (a = playerCharacter && b = playerCharacter && c = playerCharacter) -> true
-    | [_;_;a;_;b;_;c;_;_] when (a = playerCharacter && b = playerCharacter && c = playerCharacter) -> true
-    | _ -> false
-
-let isGameOver (gameState : char list, humanCharacter : char,computerCharacter : char) : bool = 
-    if (didTieHappen(gameState) || didSomeoneWin(gameState, humanCharacter) || didSomeoneWin(gameState, computerCharacter)) then
-        true
-    else
-        false
 
 let rec moveInput (isBoardTopHeavy : bool) : int = 
     let input = System.Console.ReadKey().KeyChar
@@ -346,4 +290,4 @@ let rec playGame3X3 (gameState : char list, turn : int, humanMoveNum : int, firs
             if isGameOver (newGameState, humanCharacter, computerCharacter) then
                 newGameState
             else
-                playGame3X3 (newGameState, turn + 1, humanMoveNum, firstMove, humanCharacter, computerCharacter,doesComputerGoFirst,isBoardTopHeavy)
+                playGame3X3 (newGameState, turn + 1, humanMoveNum, firstMove, humanCharacter, computerCharacter,doesComputerGoFirst,isBoardTopHeavy)*)
