@@ -1,15 +1,16 @@
 ﻿module GameBoard
+open Game
 
 let startingBoard size = 
     [for i in 0 .. (size*size) -> ' ']
 
 
-let isLegalMove move boardSize = 
-    move >= 0 && move < boardSize*boardSize
+let isLegalMove (move, game) = 
+    move >= 0 && move < game.BoardSize*game.BoardSize && game.CurrentBoard.[move] = ' '
 
 
-let makeMove (gameState : char list, boardSize, moveIndex, player) =
-    List.init (boardSize * boardSize) (fun i -> if moveIndex = i then player else gameState.[i])
+let makeMove (game, moveIndex, player) =
+    List.init (game.BoardSize * game.BoardSize) (fun i -> if moveIndex = i then player else game.CurrentBoard.[i])
 
 
 let didTieHappen gameState =
@@ -53,5 +54,5 @@ let didSomeoneWin gameState player1 player2 boardSize =
     || didPlayer2Win gameState player1 boardSize
 
 
-let isGameOver gameState player1 player2 boardSize = 
-    didTieHappen gameState || didSomeoneWin gameState player1 player2 boardSize
+let isGameOver (game) = 
+    didTieHappen game.CurrentBoard || didSomeoneWin game.CurrentBoard game.HumanCharacter game.ComputerCharacter game.BoardSize
