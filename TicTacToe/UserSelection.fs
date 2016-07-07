@@ -44,3 +44,18 @@ let getSizeOfBoard (print, input : unit -> string) =
         3
     else
         4
+
+let askIfGameOver (print, input : unit -> string) = 
+    print ("If you would like to play again please press the Y key.\n")
+    let answer = input().ToCharArray()
+    answer.[0] = 'y' || answer.[0] = 'Y'
+
+let askIfInverted (print, input : unit -> string) = 
+    print ("If you would like to have biggest number on top of input press the 1 key.\n")
+    let answer = input().ToCharArray()
+    answer.[0] = '1'
+
+let askIfMinimax (print, input : unit -> string) = 
+    print ("If you would like to play against the minimax algorithm press the 1 key.  Press any other key for a rules algorithm.\n")
+    let answer = input().ToCharArray()
+    answer.[0] = '1'

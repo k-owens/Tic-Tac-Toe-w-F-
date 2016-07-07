@@ -15,16 +15,10 @@ let keepWindowOpen () =
 let printToScreen (output) =
     printfn "%s" output
 
-let askIfGameOver (print, input : unit -> string) = 
-    print ("If you would like to play again please press the Y key.")
-    let answer = input().ToCharArray()
-    answer.[0] = 'y' || answer.[0] = 'Y'
-
-
-let rec runGame (print, input, size, doesComputerGoFirst, characters : char list) =
-    let x = startNewGame(size,doesComputerGoFirst,characters.[0], characters.[1], enterInput, printToScreen)
+let rec runGame (print, input, size, doesComputerGoFirst, characters : char list,isInverted,isMinimax) =
+    let x = startNewGame(size,doesComputerGoFirst,characters.[0], characters.[1], enterInput, printToScreen,isInverted,isMinimax)
     if askIfGameOver (print, input) then
-        runGame(print,input, size, doesComputerGoFirst, characters)
+        runGame(print,input, size, doesComputerGoFirst, characters, isInverted,isMinimax)
     else
         0
 
@@ -34,7 +28,7 @@ let main (args : string[]) =
     let size = getSizeOfBoard (printToScreen, enterInput)
     let doesComputerGoFirst = doesComputerGoFirst (printToScreen, enterInput)
     let characters = getCharacterInput(printToScreen,enterInput)
-    let over = runGame(printToScreen,enterInput, size, doesComputerGoFirst, characters)
+    let isInverted = askIfInverted(printToScreen,enterInput)
+    let isMinimax = askIfMinimax(printToScreen,enterInput)
+    let over = runGame(printToScreen,enterInput, size, doesComputerGoFirst, characters,isInverted,isMinimax)
     keepWindowOpen()
-
-   //need to add inverted option

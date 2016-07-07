@@ -5,7 +5,7 @@ open Game
 open GameBoard 
 open MoveManager 
 open ConsoleTasks  
-open GamePlayer // in progess (should work once the algorithm is complete)
+open GamePlayer
 open UserSelection 
 open MinimaxAlgorithm
 open RuleAlgorithm3X3
@@ -134,6 +134,18 @@ let canGetCharactersForBothCharacters () =
 [<Fact>]
 let canDetermineWhoGoesFirst () =
     Assert.Equal<bool>(true,doesComputerGoFirst(printHolder,returnString))
+
+[<Fact>]
+let canPlayAgain () =
+    Assert.Equal<bool>(false,askIfGameOver(printHolder,returnString))
+
+[<Fact>]
+let canaskIfInverted () =
+    Assert.Equal<bool>(false,askIfInverted(printHolder,returnString))
+
+[<Fact>]
+let canChooseAlgorithm () =
+    Assert.Equal<bool>(false,askIfMinimax(printHolder,returnString))
 
 [<Fact>]
 let canGetSizeOfBoard () =
