@@ -51,7 +51,7 @@ let didPlayer2Win gameState player2 boardSize =
 
 let didSomeoneWin gameState player1 player2 boardSize = 
     didPlayer1Win gameState player1 boardSize
-    || didPlayer2Win gameState player1 boardSize
+    || didPlayer2Win gameState player2 boardSize
 
 
 let isGameOver (game) = 
