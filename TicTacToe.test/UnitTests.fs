@@ -16,19 +16,19 @@ let printHolder (arbitrary : string) =
 
 [<Fact>]
 let canTie () =
-    let game = {BoardSize = 3; CurrentBoard = ['O';'X';'O';'O';'X';'O';'X';'O';'X']; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    let game = {BoardSize = 3; CurrentBoard = [Some('O');Some('X');Some('O');Some('O');Some('X');Some('O');Some('X');Some('O');Some('X')]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
     Assert.True(isGameOver (game))
 
 [<Fact>]
 let willNotEndGameTooSoon () =
-    let game = {BoardSize = 3; CurrentBoard = ['O';' ';'O';'O';'X';'O';'X';' ';'X']; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    let game = {BoardSize = 3; CurrentBoard = [Some('O');None;Some('O');Some('O');Some('X');Some('O');Some('X');None;Some('X')]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
     Assert.True(not(isGameOver (game)))
 
 [<Fact>]
 let willHorizontalWinEndGame () =
-    let game1 = {BoardSize = 3; CurrentBoard = ['O';'O';'O';' ';' ';' ';' ';' ';' ']; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
-    let game2 = {BoardSize = 3; CurrentBoard = [' ';' ';' ';'O';'O';'O';' ';' ';' ']; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
-    let game3 = {BoardSize = 3; CurrentBoard = [' ';' ';' ';' ';' ';' ';'O';'O';'O']; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    let game1 = {BoardSize = 3; CurrentBoard = [Some('O');Some('O');Some('O');None;None;None;None;None;None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    let game2 = {BoardSize = 3; CurrentBoard = [None;None;None;Some('O');Some('O');Some('O');None;None;None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    let game3 = {BoardSize = 3; CurrentBoard = [None;None;None;None;None;None;Some('O');Some('O');Some('O')]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
 
     Assert.True(isGameOver (game1))
     Assert.True(isGameOver (game2))
@@ -37,9 +37,9 @@ let willHorizontalWinEndGame () =
 
 [<Fact>]
 let willVerticalWinEndGame () =
-    let game1 = {BoardSize = 3; CurrentBoard = ['O';' ';' ';'O';' ';' ';'O';' ';' ']; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
-    let game2 = {BoardSize = 3; CurrentBoard = [' ';'O';' ';' ';'O';' ';' ';'O';' ']; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
-    let game3 = {BoardSize = 3; CurrentBoard = [' ';' ';'O';' ';' ';'O';' ';' ';'O']; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    let game1 = {BoardSize = 3; CurrentBoard = [Some('O');None;None;Some('O');None;None;Some('O');None;None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    let game2 = {BoardSize = 3; CurrentBoard = [None;Some('O');None;None;Some('O');None;None;Some('O');None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    let game3 = {BoardSize = 3; CurrentBoard = [None;None;Some('O');None;None;Some('O');None;None;Some('O')]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
 
     Assert.True(isGameOver (game1))
     Assert.True(isGameOver (game2))
@@ -48,24 +48,24 @@ let willVerticalWinEndGame () =
 
 [<Fact>]
 let willDiagonalWinEndGame () =
-    let game1 = {BoardSize = 3; CurrentBoard = ['O';' ';' ';' ';'O';' ';' ';' ';'O']; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
-    let game2 = {BoardSize = 3; CurrentBoard = [' ';' ';'O';' ';'O';' ';'O';' ';' ']; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    let game1 = {BoardSize = 3; CurrentBoard = [Some('O');None;None;None;Some('O');None;None;None;Some('O')]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    let game2 = {BoardSize = 3; CurrentBoard = [None;None;Some('O');None;Some('O');None;Some('O');None;None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
 
     Assert.True(isGameOver (game1))
     Assert.True(isGameOver (game2))
 
 [<Fact>]
 let canMakeMove () =
-    let game = {BoardSize = 3; CurrentBoard = [' ';' ';' ';' ';' ';' ';' ';' ';' ']; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
-    Assert.Equal<char list>(['O';' ';' ';' ';' ';' ';' ';' ';' '], makeMove (game, 0, 'O'))
+    let game = {BoardSize = 3; CurrentBoard = [None;None;None;None;None;None;None;None;None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    Assert.Equal<char option list>([Some('O');None;None;None;None;None;None;None;None], makeMove (game, 0, 'O'))
 
 [<Fact>]
 let canDetermineIllegalMoves () =
-    let game = {BoardSize = 3; CurrentBoard = [' ';' ';' ';' ';' ';' ';' ';' ';' ']; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    let game = {BoardSize = 3; CurrentBoard = [None;None;None;None;None;None;None;None;None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
     Assert.True(isLegalMove (8, game))
     Assert.True(not(isLegalMove (10,game)))
     Assert.True(not(isLegalMove (-1,game)))
-    let game2 = {BoardSize = 4; CurrentBoard = [' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ']; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    let game2 = {BoardSize = 4; CurrentBoard = [None;None;None;None;None;None;None;None;None;None;None;None;None;None;None;None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
 
     Assert.True(isLegalMove (14, game2))
 
@@ -78,12 +78,12 @@ let returnNum (f : unit -> string) =
 
 [<Fact>]
 let canHumanMakeMove () =
-    let game = {BoardSize = 3; CurrentBoard = [' ';' ';' ';' ';' ';' ';' ';' ';' ']; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    let game = {BoardSize = 3; CurrentBoard = [None;None;None;None;None;None;None;None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
     Assert.Equal<int>(0,humanMove (moveInput, game, returnStringNum,printHolder))
 
 (*[<Fact>]
 let canComputerMakeMove () =
-    let testGame = [' ';' ';' ';' ';' ';' ';' ';' ';' ']
+    let testGame = [None;None;None;None;None;None;None;None;None]
     Assert.Equal<int>(0,computerMove (testGame, true))*)
 
 [<Fact>]
@@ -92,12 +92,12 @@ let canUserInputMove () =
 
 [<Fact>]
 let canDisplayInvertedBoard() =
-    let testGame = ['O';'X';'O';'O';'X';'O';'X';'O';'X']
+    let testGame = [Some('O');Some('X');Some('O');Some('O');Some('X');Some('O');Some('X');Some('O');Some('X')]
     Assert.Equal<string>("Current board:\n___________\n|O|X|O|\n___________\n|O|X|O|\n___________\n|X|O|X|\n___________\n",displayBoard(testGame,3,true))
 
 [<Fact>]
 let canDisplayUninvertedBoard () =
-    let testGame = ['O';'X';'O';'O';'X';'O';'X';'O';'X']
+    let testGame = [Some('O');Some('X');Some('O');Some('O');Some('X');Some('O');Some('X');Some('O');Some('X')]
     Assert.Equal<string>("Current board:\n___________\n|X|O|X|\n___________\n|O|X|O|\n___________\n|O|X|O|\n___________\n",displayBoard(testGame,3,false))
 
 [<Fact>]
@@ -153,85 +153,85 @@ let canGetSizeOfBoard () =
 
 [<Fact>]
 let minimaxTest () =
-    let game = {BoardSize = 3; CurrentBoard = [' ';' ';'O';' ';' ';' ';' ';' ';' ']; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    let game = {BoardSize = 3; CurrentBoard = [None;None;Some('O');None;None;None;None;None;None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
     Assert.Equal<int>(4,minimaxAlgorithm(game,true).[0])
 
 [<Fact>]
 let canComputerChooseCorner () =
-    let testBoard : char list = [' ';' ';' ';' ';' ';' ';' ';' ';' ']
+    let testBoard : char option list = [None;None;None;None;None;None;None;None]
     Assert.Equal<int>(chooseCorner(testBoard).Value, 3)
 
 [<Fact>]
 let canComputerChooseSide () =
-    let testBoard : char list = [' ';' ';' ';' ';' ';' ';' ';' ';' ']
+    let testBoard : char option list = [None;None;None;None;None;None;None;None]
     Assert.Equal<int>(2, chooseSide(testBoard).Value)
 
 [<Fact>]
 let canComputerChooseCornerInBetweenHumanMove () =
-    let testBoard : char list = [' ';'O';' ';'O';' ';' ';' ';' ';' ']
+    let testBoard : char option list = [None;Some('O');None;Some('O');None;None;None;None;None]
     Assert.Equal<int>(1, chooseCornerInBetween(4,testBoard,2).Value)
 
 [<Fact>]
 let doesComputerKnowWhenFirstTurn () =
-    let testBoard : char list = [' ';' ';' ';'O';' ';' ';' ';' ';' ']
+    let testBoard : char option list = [None;None;None;Some('O');None;None;None;None;None]
     Assert.True(isFirstComputerTurn(testBoard,'O'))
 
 [<Fact>]
 let doesComputerKnowWhenNotFirstTurn () =
-    let testBoard : char list = [' ';'O';' ';'O';' ';'X';' ';' ';' ']
+    let testBoard : char option list = [None;Some('O');None;Some('O');None;None;None;None;None]
     Assert.True(not(isFirstComputerTurn(testBoard,'O')))
 
 [<Fact>]
 let doesComputerRespondToFirstMoveMiddleCorrectly () = 
-    let testBoard : char list = [' ';' ';' ';' ';'O';' ';' ';' ';' ']
+    let testBoard : char option list = [None;None;None;None;Some('O');None;None;None;None]
     Assert.Equal<int>(1, respondToFirstMoveMiddle(testBoard,5,'O').Value)
 
 [<Fact>]
 let doesComputerRespondToFirstMoveCornerCorrectly () = 
-    let testBoard : char list = ['O';' ';' ';' ';' ';' ';' ';' ';' ']
+    let testBoard : char option list = [Some('O');None;None;None;None;None;None;None;None]
     Assert.Equal<int>(5, respondToFirstMoveCorner(testBoard,1,'O').Value)
 
 [<Fact>]
 let doesComputerRespondToFirstMoveSideCorrectly () = 
-    let testBoard : char list = [' ';'O';' ';' ';' ';' ';' ';' ';' ']
+    let testBoard : char option list = [None;Some('O');None;None;None;None;None;None;None]
     Assert.Equal<int>(5, respondToFirstMoveSide(testBoard,'O').Value)
 
 [<Fact>]
 let doesComputerRespondToCorrectFirstMove () =
-    let testBoard : char list = ['O';' ';' ';' ';' ';' ';' ';' ';' ']
+    let testBoard : char option list = [Some('O');None;None;None;None;None;None;None;None]
     Assert.Equal<int>(5, respondToFirstMove(testBoard,1,'O').Value)
 
 [<Fact>]
 let canComputerChooseCornerSquare4X4 () =
-    let testBoard = [' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' ']
+    let testBoard = [None; None; None; None; None; None; None; None; None; None; None; None; None; None; None; None]
 
     Assert.Equal<int>(1,chooseCorner4X4(testBoard).Value)
 
 [<Fact>]
 let canComputerChooseSideSquare4X4 () =
-    let testBoard = [' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' '; ' ']
+    let testBoard = [None; None; None; None; None; None; None; None; None; None; None; None; None; None; None; None]
 
     Assert.Equal<int>(2,chooseSide4X4(testBoard).Value)
 
 [<Fact>]
 let canComputerFindHorizontalWins4X4 () =
-    let testBoard1 = [' ';'O';'O';'O';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ']
-    let testBoard2 = ['O';' ';'O';'O';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ']
-    let testBoard3 = ['O';'O';' ';'O';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ']
-    let testBoard4 = ['O';'O';'O';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ']
-    let testBoard5 = [' ';' ';' ';' ';' ';'O';'O';'O';' ';' ';' ';' ';' ';' ';' ';' ']
-    let testBoard6 = [' ';' ';' ';' ';'O';' ';'O';'O';' ';' ';' ';' ';' ';' ';' ';' ']
-    let testBoard7 = [' ';' ';' ';' ';'O';'O';' ';'O';' ';' ';' ';' ';' ';' ';' ';' ']
-    let testBoard8 = [' ';' ';' ';' ';'O';'O';'O';' ';' ';' ';' ';' ';' ';' ';' ';' ']
-    let testBoard9 = [' ';' ';' ';' ';' ';' ';' ';' ';' ';'O';'O';'O';' ';' ';' ';' ']
-    let testBoard10 = [' ';' ';' ';' ';' ';' ';' ';' ';'O';' ';'O';'O';' ';' ';' ';' ']
-    let testBoard11 = [' ';' ';' ';' ';' ';' ';' ';' ';'O';'O';' ';'O';' ';' ';' ';' ']
-    let testBoard12 = [' ';' ';' ';' ';' ';' ';' ';' ';'O';'O';'O';' ';' ';' ';' ';' ']
-    let testBoard13 = [' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';'O';'O';'O']
-    let testBoard14 = [' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';'O';' ';'O';'O']
-    let testBoard15 = [' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';'O';'O';' ';'O']
-    let testBoard16 = [' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';'O';'O';'O';' ']
-    let testBoard17 = [' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';' ';'O';'O';' ';' ']
+    let testBoard1 = [None;Some('O');Some('O');Some('O');None;None;None;None;None;None;None;None;None;None;None;None]
+    let testBoard2 = [Some('O');None;Some('O');Some('O');None;None;None;None;None;None;None;None;None;None;None;None]
+    let testBoard3 = [Some('O');Some('O');None;Some('O');None;None;None;None;None;None;None;None;None;None;None;None]
+    let testBoard4 = [Some('O');Some('O');Some('O');None;None;None;None;None;None;None;None;None;None;None;None;None]
+    let testBoard5 = [None;None;None;None;None;Some('O');Some('O');Some('O');None;None;None;None;None;None;None;None]
+    let testBoard6 = [None;None;None;None;Some('O');None;Some('O');Some('O');None;None;None;None;None;None;None;None]
+    let testBoard7 = [None;None;None;None;Some('O');Some('O');None;Some('O');None;None;None;None;None;None;None;None]
+    let testBoard8 = [None;None;None;None;Some('O');Some('O');Some('O');None;None;None;None;None;None;None;None;None]
+    let testBoard9 = [None;None;None;None;None;None;None;None;None;Some('O');Some('O');Some('O');None;None;None;None]
+    let testBoard10 = [None;None;None;None;None;None;None;None;Some('O');None;Some('O');Some('O');None;None;None;None]
+    let testBoard11 = [None;None;None;None;None;None;None;None;Some('O');Some('O');None;Some('O');None;None;None;None]
+    let testBoard12 = [None;None;None;None;None;None;None;None;Some('O');Some('O');Some('O');None;None;None;None;None]
+    let testBoard13 = [None;None;None;None;None;None;None;None;None;None;None;None;None;Some('O');Some('O');Some('O')]
+    let testBoard14 = [None;None;None;None;None;None;None;None;None;None;None;None;Some('O');None;Some('O');Some('O')]
+    let testBoard15 = [None;None;None;None;None;None;None;None;None;None;None;None;Some('O');Some('O');None;Some('O')]
+    let testBoard16 = [None;None;None;None;None;None;None;None;None;None;None;None;Some('O');Some('O');Some('O');None]
+    let testBoard17 = [None;None;None;None;None;None;None;None;None;None;None;None;Some('O');Some('O');None;None]
 
     Assert.Equal<int>(1,checkHorizontalWins4X4(testBoard1,'O').Value)
     Assert.Equal<int>(2,checkHorizontalWins4X4(testBoard2,'O').Value)
@@ -253,23 +253,23 @@ let canComputerFindHorizontalWins4X4 () =
 
 [<Fact>]
 let canComputerFindVerticalWins4X4 () =
-    let testBoard1 = [' ';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ']
-    let testBoard2 = [' ';' ';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ']
-    let testBoard3 = [' ';' ';' ';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';'O';' ']
-    let testBoard4 = [' ';' ';' ';' ';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';'O']
-    let testBoard5 = ['O';' ';' ';' ';' ';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ']
-    let testBoard6 = [' ';'O';' ';' ';' ';' ';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ']
-    let testBoard7 = [' ';' ';'O';' ';' ';' ';' ';' ';' ';' ';'O';' ';' ';' ';'O';' ']
-    let testBoard8 = [' ';' ';' ';'O';' ';' ';' ';' ';' ';' ';' ';'O';' ';' ';' ';'O']
-    let testBoard9 = ['O';' ';' ';' ';'O';' ';' ';' ';' ';' ';' ';' ';'O';' ';' ';' ']
-    let testBoard10 = [' ';'O';' ';' ';' ';'O';' ';' ';' ';' ';' ';' ';' ';'O';' ';' ']
-    let testBoard11 = [' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';' ';' ';' ';' ';'O';' ']
-    let testBoard12 = [' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';' ';' ';' ';' ';'O']
-    let testBoard13 = ['O';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';' ';' ';' ';' ']
-    let testBoard14 = [' ';'O';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';' ';' ';' ']
-    let testBoard15 = [' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';' ';' ']
-    let testBoard16 = [' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';' ']
-    let testBoard17 = [' ';' ';' ';'O';' ';' ';' ';'O';' ';' ';' ';' ';' ';' ';' ';' ']
+    let testBoard1 = [None;None;None;None;Some('O');None;None;None;Some('O');None;None;None;Some('O');None;None;None]
+    let testBoard2 = [None;None;None;None;None;Some('O');None;None;None;Some('O');None;None;None;Some('O');None;None]
+    let testBoard3 = [None;None;None;None;None;None;Some('O');None;None;None;Some('O');None;None;None;Some('O');None]
+    let testBoard4 = [None;None;None;None;None;None;None;Some('O');None;None;None;Some('O');None;None;None;Some('O')]
+    let testBoard5 = [Some('O');None;None;None;None;None;None;None;Some('O');None;None;None;Some('O');None;None;None]
+    let testBoard6 = [None;Some('O');None;None;None;None;None;None;None;Some('O');None;None;None;Some('O');None;None]
+    let testBoard7 = [None;None;Some('O');None;None;None;None;None;None;None;Some('O');None;None;None;Some('O');None]
+    let testBoard8 = [None;None;None;Some('O');None;None;None;None;None;None;None;Some('O');None;None;None;Some('O')]
+    let testBoard9 = [Some('O');None;None;None;Some('O');None;None;None;None;None;None;None;Some('O');None;None;None]
+    let testBoard10 = [None;Some('O');None;None;None;Some('O');None;None;None;None;None;None;None;Some('O');None;None]
+    let testBoard11 = [None;None;Some('O');None;None;None;Some('O');None;None;None;None;None;None;None;Some('O');None]
+    let testBoard12 = [None;None;None;Some('O');None;None;None;Some('O');None;None;None;None;None;None;None;Some('O')]
+    let testBoard13 = [Some('O');None;None;None;Some('O');None;None;None;Some('O');None;None;None;None;None;None;None]
+    let testBoard14 = [None;Some('O');None;None;None;Some('O');None;None;None;Some('O');None;None;None;None;None;None]
+    let testBoard15 = [None;None;Some('O');None;None;None;Some('O');None;None;None;Some('O');None;None;None;None;None]
+    let testBoard16 = [None;None;None;Some('O');None;None;None;Some('O');None;None;None;Some('O');None;None;None;None]
+    let testBoard17 = [None;None;None;Some('O');None;None;None;Some('O');None;None;None;None;None;None;None;None]
 
     Assert.Equal<int>(1,checkVerticalWins4X4(testBoard1, 'O').Value)
     Assert.Equal<int>(2,checkVerticalWins4X4(testBoard2, 'O').Value)
@@ -291,14 +291,14 @@ let canComputerFindVerticalWins4X4 () =
 
 [<Fact>]
 let canComputerFindDiagonalWins () =
-    let testBoard1 = [' ';' ';' ';' ';' ';'O';' ';' ';' ';' ';'O';' ';' ';' ';' ';'O']
-    let testBoard2 = ['O';' ';' ';' ';' ';' ';' ';' ';' ';' ';'O';' ';' ';' ';' ';'O']
-    let testBoard3 = ['O';' ';' ';' ';' ';'O';' ';' ';' ';' ';' ';' ';' ';' ';' ';'O']
-    let testBoard4 = ['O';' ';' ';' ';' ';'O';' ';' ';' ';' ';'O';' ';' ';' ';' ';' ']
-    let testBoard5 = [' ';' ';' ';' ';' ';' ';'O';' ';' ';'O';' ';' ';'O';' ';' ';' ']
-    let testBoard6 = [' ';' ';' ';'O';' ';' ';' ';' ';' ';'O';' ';' ';'O';' ';' ';' ']
-    let testBoard7 = [' ';' ';' ';'O';' ';' ';'O';' ';' ';' ';' ';' ';'O';' ';' ';' ']
-    let testBoard8 = [' ';' ';' ';'O';' ';' ';'O';' ';' ';'O';' ';' ';' ';' ';' ';' ']
+    let testBoard1 = [None;None;None;None;None;Some('O');None;None;None;None;Some('O');None;None;None;None;Some('O')]
+    let testBoard2 = [Some('O');None;None;None;None;None;None;None;None;None;Some('O');None;None;None;None;Some('O')]
+    let testBoard3 = [Some('O');None;None;None;None;Some('O');None;None;None;None;None;None;None;None;None;Some('O')]
+    let testBoard4 = [Some('O');None;None;None;None;Some('O');None;None;None;None;Some('O');None;None;None;None;None]
+    let testBoard5 = [None;None;None;None;None;None;Some('O');None;None;Some('O');None;None;Some('O');None;None;None]
+    let testBoard6 = [None;None;None;Some('O');None;None;None;None;None;Some('O');None;None;Some('O');None;None;None]
+    let testBoard7 = [None;None;None;Some('O');None;None;Some('O');None;None;None;None;None;Some('O');None;None;None]
+    let testBoard8 = [None;None;None;Some('O');None;None;Some('O');None;None;Some('O');None;None;None;None;None;None]
 
     Assert.Equal<int>(1,checkDiagonalWins4X4(testBoard1,'O').Value)
     Assert.Equal<int>(6,checkDiagonalWins4X4(testBoard2,'O').Value)
