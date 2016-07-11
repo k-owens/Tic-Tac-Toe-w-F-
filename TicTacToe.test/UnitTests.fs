@@ -10,6 +10,7 @@ open UserSelection
 open MinimaxAlgorithm
 open RuleAlgorithm3X3
 open RuleAlgorithm4X4
+open StupidComputer
 
 let printHolder (arbitrary : string) =
     printfn ""
@@ -143,9 +144,12 @@ let canPlayAgain () =
 let canaskIfInverted () =
     Assert.Equal<bool>(false,askIfInverted(printHolder,returnString))
 
+let returnSeedNumber () =
+    "1"
+
 [<Fact>]
 let canChooseAlgorithm () =
-    Assert.Equal<bool>(false,askIfMinimax(printHolder,returnString))
+    Assert.Equal<int>(1,askAlgorithmSeed(printHolder,returnSeedNumber,3))
 
 [<Fact>]
 let canGetSizeOfBoard () =
@@ -308,3 +312,9 @@ let canComputerFindDiagonalWins () =
     Assert.Equal<int>(7,checkDiagonalWins4X4(testBoard6,'O').Value)
     Assert.Equal<int>(10,checkDiagonalWins4X4(testBoard7,'O').Value)
     Assert.Equal<int>(13,checkDiagonalWins4X4(testBoard8,'O').Value)
+
+[<Fact>]
+let canStupidComputerMakeMove () =
+    let game = {BoardSize = 3; CurrentBoard = [None;None;None;None;None;None;None;None;None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    let testMove = stupidComputerMove(game,game.BoardSize*game.BoardSize-1) 
+    Assert.True(testMove > -1 && testMove < 9)

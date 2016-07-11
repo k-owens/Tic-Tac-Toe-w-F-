@@ -1,4 +1,5 @@
 ﻿module UserSelection
+open Game
 
 let getHumanCharacter (print, input : unit -> string) =
     print "Please enter the character for your moves:\n"
@@ -55,7 +56,17 @@ let askIfInverted (print, input : unit -> string) =
     let answer = input().ToCharArray()
     answer.[0] = '1'
 
-let askIfMinimax (print, input : unit -> string) = 
-    print ("If you would like to play against the minimax algorithm press the 1 key.  Press any other key for a rules algorithm.\n")
-    let answer = input().ToCharArray()
-    answer.[0] = '1'
+let rec askAlgorithmSeed (print, input : unit -> string, gameSize) = 
+    print ("Please select an algorithm to play against:\n")
+    print ("1. minimax\n")
+    print ("2. stupid\n")
+    if(gameSize = 3 || gameSize = 4) then
+        print ("3. rules\n")
+
+    let answer = input()
+    if(answer = "1" || answer = "2") then
+        answer |> System.Int32.Parse
+    else
+        askAlgorithmSeed (print, input, gameSize)
+    //let answer = input().ToCharArray()
+    //answer.[0] = '1'

@@ -16,7 +16,7 @@ let displayInvertedBoard (board : char option list, boardSize) =
         x <- x + "|"
         for j in 0 .. boardSize-1 do
             if board.[(i*boardSize) + j] = None then
-                x <- x + None.ToString()
+                x <- x + ' '.ToString()
             else
                 x <- x + board.[(i*boardSize) + j].Value.ToString()
             x <- x + "|"
@@ -32,7 +32,7 @@ let displayUninvertedBoard (board : char option list, boardSize) =
         x <- x + "|"
         for j in boardSize-1 .. -1 .. 0 do
             if(board.[(i*boardSize) + j] = None) then
-                x <- x + None.ToString()
+                x <- x + ' '.ToString()
             else
                 x <- x + board.[(i*boardSize) + j].Value.ToString()
             x <- x + "|"
