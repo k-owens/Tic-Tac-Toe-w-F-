@@ -15,10 +15,10 @@ let keepWindowOpen () =
 let printToScreen (output) =
     printfn "%s" output
 
-let rec runGame (print, input, size, doesComputerGoFirst, characters : char list,isInverted,isMinimax) =
-    let x = startNewGame(size,doesComputerGoFirst,characters.[0], characters.[1], enterInput, printToScreen,isInverted,isMinimax)
+let rec runGame (print, input, size, doesComputerGoFirst, characters : char list,isInverted,algorithmSeed) =
+    let x = startNewGame(size,doesComputerGoFirst,characters.[0], characters.[1], enterInput, printToScreen,isInverted,algorithmSeed)
     if askIfGameOver (print, input) then
-        runGame(print,input, size, doesComputerGoFirst, characters, isInverted,isMinimax)
+        runGame(print,input, size, doesComputerGoFirst, characters, isInverted,algorithmSeed)
     else
         0
 
@@ -29,6 +29,6 @@ let main (args : string[]) =
     let doesComputerGoFirst = doesComputerGoFirst (printToScreen, enterInput)
     let characters = getCharacterInput(printToScreen,enterInput)
     let isInverted = askIfInverted(printToScreen,enterInput)
-    let isMinimax = askIfMinimax(printToScreen,enterInput)
-    let over = runGame(printToScreen,enterInput, size, doesComputerGoFirst, characters,isInverted,isMinimax)
+    let algorithmSeed = askAlgorithmSeed(printToScreen,enterInput, size)
+    let over = runGame(printToScreen,enterInput, size, doesComputerGoFirst, characters,isInverted,algorithmSeed)
     keepWindowOpen()
