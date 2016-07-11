@@ -1,37 +1,37 @@
 ﻿module GameBoard
 open Game
 
-let startingBoard size = 
-    [for i in 0 .. (size*size) -> ' ']
+let startingBoard size : char option list = 
+    [for i in 0 .. (size*size) -> None]
 
 
 let isLegalMove (move, game) = 
-    move >= 0 && move < game.BoardSize*game.BoardSize && game.CurrentBoard.[move] = ' '
+    move >= 0 && move < game.BoardSize*game.BoardSize && game.CurrentBoard.[move] = None
 
 
 let makeMove (game, moveIndex, player) =
-    List.init (game.BoardSize * game.BoardSize) (fun i -> if moveIndex = i then player else game.CurrentBoard.[i])
+    List.init (game.BoardSize * game.BoardSize) (fun i -> if moveIndex = i then Some(player) else game.CurrentBoard.[i])
 
 
 let didTieHappen gameState =
-    not(List.exists (fun elem -> elem = ' ') gameState)
+    not(List.exists (fun elem -> elem = None) gameState)
 
 
-let didWin (row: char list, player1) =
-    List.forall (fun elem -> elem = player1) row
+let didWin (row: char option list, player1) =
+    List.forall (fun elem -> not(elem = None) && elem.Value = player1) row
 
 
-let didHorizontalWinHappen (gameState : char list, player1, boardSize) =
+let didHorizontalWinHappen (gameState : char option list, player1, boardSize) =
     let rows = List.init boardSize (fun elem -> List.init boardSize (fun i -> gameState.[i+(elem * boardSize)]))
     List.exists (fun elem -> didWin (elem, player1)) rows
 
 
-let didVerticalWinHappen (gameState : char list, player1, boardSize) =
+let didVerticalWinHappen (gameState : char option list, player1, boardSize) =
     let columns = List.init boardSize (fun elem -> List.init boardSize (fun i -> gameState.[(i * boardSize)+elem]))
     List.exists (fun elem -> didWin (elem, player1)) columns
 
 
-let didDiagonalWinHappen (gameState : char list, player1, boardSize) =
+let didDiagonalWinHappen (gameState : char option list, player1, boardSize) =
     let diagonal1 = List.init boardSize (fun i -> gameState.[i+(boardSize*i)])
     let diagonal2 = List.init boardSize (fun i -> gameState.[(i*(boardSize-1)) + (boardSize - 1)])
     didWin (diagonal1, player1) || didWin (diagonal2, player1)

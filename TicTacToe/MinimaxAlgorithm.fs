@@ -16,7 +16,7 @@ let rec minimaxAlgorithm (game : Game, isComputerPlayer) =
             let mutable resultArray = [||]
 
             for index in 0 .. (game.BoardSize*game.BoardSize - 1) do
-                if(game.CurrentBoard.[index] = ' ') then
+                if(game.CurrentBoard.[index] = None) then
                     let newGame = {BoardSize = game.BoardSize; CurrentBoard = makeMove(game,index,game.ComputerCharacter); HumanCharacter = game.HumanCharacter; ComputerCharacter = game.ComputerCharacter; DoesComputerGoFirst = game.DoesComputerGoFirst; TurnNumber = game.TurnNumber+1}
                     let result = minimaxAlgorithm(newGame, false)
                     if maximum < result.[1] then
@@ -28,7 +28,7 @@ let rec minimaxAlgorithm (game : Game, isComputerPlayer) =
             let mutable resultArray = [||]
 
             for index in 0 .. (game.BoardSize*game.BoardSize - 1) do
-                if(game.CurrentBoard.[index] = ' ') then
+                if(game.CurrentBoard.[index] = None) then
                     let newGame = {BoardSize = game.BoardSize; CurrentBoard = makeMove(game,index,game.HumanCharacter); HumanCharacter = game.HumanCharacter; ComputerCharacter = game.ComputerCharacter; DoesComputerGoFirst = game.DoesComputerGoFirst; TurnNumber = game.TurnNumber+1}
                     let result = minimaxAlgorithm(newGame, true)
                     if minimum > result.[1] then
