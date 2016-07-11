@@ -2,11 +2,11 @@
 open GameBoard
 open Game
 
-let y = System.Random()
+let randomGenerator = System.Random()
 
 let rec stupidComputerMove (game, highestMove) = 
-    let x = y.Next(0, highestMove)
-    if isLegalMove(x,game) then
-        x
+    let randomMove = randomGenerator.Next(0, highestMove)
+    if isLegalMove(randomMove,game) then
+        randomMove
     else
         stupidComputerMove(game, highestMove)
