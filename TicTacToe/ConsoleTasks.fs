@@ -9,32 +9,38 @@ let rec moveInput (moveEntered, print) =
         | :? System.FormatException -> moveInput(moveEntered, print)
 
 
-let displayInvertedBoard (board : char list, boardSize) =
+let displayInvertedBoard (board : char option list, boardSize) =
     let mutable x = ""
     for i in 0 .. boardSize-1 do
         x <-  x + "___________\n"
         x <- x + "|"
         for j in 0 .. boardSize-1 do
-            x <- x + board.[(i*boardSize) + j].ToString()
+            if board.[(i*boardSize) + j] = None then
+                x <- x + None.ToString()
+            else
+                x <- x + board.[(i*boardSize) + j].Value.ToString()
             x <- x + "|"
         x <- x + "\n"
     x <- x + "___________\n"
     x
 
 
-let displayUninvertedBoard (board : char list, boardSize) =
+let displayUninvertedBoard (board : char option list, boardSize) =
     let mutable x = ""
     for i in boardSize-1 .. -1 .. 0 do
         x <-  x + "___________\n"
         x <- x + "|"
         for j in boardSize-1 .. -1 .. 0 do
-            x <- x + board.[(i*boardSize) + j].ToString()
+            if(board.[(i*boardSize) + j] = None) then
+                x <- x + None.ToString()
+            else
+                x <- x + board.[(i*boardSize) + j].Value.ToString()
             x <- x + "|"
         x <- x + "\n"
     x <- x + "___________\n"
     x
 
-let displayBoard (board : char list, boardSize, isInverted) =
+let displayBoard (board : char option list, boardSize, isInverted) =
     if(isInverted) then
         "Current board:\n" + displayInvertedBoard(board,boardSize)
     else
