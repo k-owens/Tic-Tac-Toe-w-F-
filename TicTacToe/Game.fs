@@ -2,7 +2,7 @@
 
 type Game = 
     {   BoardSize : int 
-        CurrentBoard : char list 
+        CurrentBoard : char option list 
         HumanCharacter : char
         ComputerCharacter: char
         DoesComputerGoFirst: bool
