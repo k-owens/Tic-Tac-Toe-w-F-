@@ -132,9 +132,9 @@ let canVerifyDifferentCharacters () =
 let canGetCharactersForBothCharacters () =
     Assert.Equal<char list>(['a';'a'],getCharacterInput(printHolder,returnStringToChar))*)
 
-[<Fact>]
+(*[<Fact>]
 let canDetermineWhoGoesFirst () =
-    Assert.Equal<bool>(true,doesComputerGoFirst(printHolder,returnString))
+    Assert.Equal<bool>(true,doesComputerGoFirst(printHolder,returnString))*)
 
 [<Fact>]
 let canPlayAgain () =

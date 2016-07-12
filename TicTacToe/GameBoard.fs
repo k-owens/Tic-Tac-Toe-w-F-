@@ -54,5 +54,5 @@ let didSomeoneWin gameState player1 player2 boardSize =
     || didPlayer2Win gameState player2 boardSize
 
 
-let isGameOver (game) = 
-    didTieHappen game.CurrentBoard || didSomeoneWin game.CurrentBoard game.HumanCharacter game.ComputerCharacter game.BoardSize
+let isGameOver (game, player1, player2) = 
+    didTieHappen game.CurrentBoard || didSomeoneWin game.CurrentBoard player1.PlayerCharacter player2.PlayerCharacter game.BoardSize
