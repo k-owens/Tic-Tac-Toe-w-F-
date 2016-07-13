@@ -273,7 +273,7 @@ let winGame4X4 (gameState : char option list, computerCharacter : char) =
     | [_;_;_;a;_;_;b;_;_;c;_;_;None;_;_;_] when ((not(a = None) && a.Value = computerCharacter) && (not(b = None) && b.Value = computerCharacter) && (not(c = None) && c.Value = computerCharacter)) -> Some(13)
     | _ -> None
 
-let rule4X4 (game : Game, humanCharacter : char, computerCharacter : char) =
+let rule4X4 (game : Board, humanCharacter : char, computerCharacter : char) =
     printfn "Computer move..."
     System.Threading.Thread.Sleep(1000)
     let mutable computerMove : int option = None
@@ -290,3 +290,6 @@ let rule4X4 (game : Game, humanCharacter : char, computerCharacter : char) =
                     if(computerMove = None) then
                         computerMove <- chooseSide4X4(game.CurrentBoard)
     computerMove.Value
+
+let rule4X4Starter (board : Board, askingPlayer : Player, opposingPlayer : Player) =
+    rule4X4 (board,opposingPlayer.PlayerCharacter,askingPlayer.PlayerCharacter)
