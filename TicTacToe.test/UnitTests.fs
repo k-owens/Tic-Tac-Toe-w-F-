@@ -11,25 +11,44 @@ open MinimaxAlgorithm
 open RuleAlgorithm3X3
 open RuleAlgorithm4X4
 open StupidComputer
+open PlayerSelection
+open GameBoardSelection
 
 let printHolder (arbitrary : string) =
     printfn ""
 
+let stringOutput () =
+    ""
+
 [<Fact>]
 let canTie () =
-    let game = {BoardSize = 3; CurrentBoard = [Some('O');Some('X');Some('O');Some('O');Some('X');Some('O');Some('X');Some('O');Some('X')]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    let board = {BoardSize = 3; CurrentBoard = [Some('O');Some('X');Some('O');Some('O');Some('X');Some('O');Some('X');Some('O');Some('X')]; TurnNumber = 1; IsInverted = true}
+    let player1 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'O'}
+    let player2 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'X'}
+    let functions = {PrintFunction = printHolder; InputFunction = stringOutput}
+    let game = {GameBoard = board; Players = [player1; player2]; Functions = functions}
     Assert.True(isGameOver (game))
 
 [<Fact>]
 let willNotEndGameTooSoon () =
-    let game = {BoardSize = 3; CurrentBoard = [Some('O');None;Some('O');Some('O');Some('X');Some('O');Some('X');None;Some('X')]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    let board = {BoardSize = 3; CurrentBoard = [Some('O');None;Some('O');Some('O');Some('X');Some('O');Some('X');None;Some('X')]; TurnNumber = 1; IsInverted = true}
+    let player1 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'O'}
+    let player2 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'X'}
+    let functions = {PrintFunction = printHolder; InputFunction = stringOutput}
+    let game = {GameBoard = board; Players = [player1; player2]; Functions = functions}
     Assert.True(not(isGameOver (game)))
 
 [<Fact>]
-let willHorizontalWinEndGame () =
-    let game1 = {BoardSize = 3; CurrentBoard = [Some('O');Some('O');Some('O');None;None;None;None;None;None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
-    let game2 = {BoardSize = 3; CurrentBoard = [None;None;None;Some('O');Some('O');Some('O');None;None;None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
-    let game3 = {BoardSize = 3; CurrentBoard = [None;None;None;None;None;None;Some('O');Some('O');Some('O')]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+let willHorizontalWinEndGame () =    
+    let board1 = {BoardSize = 3; CurrentBoard = [Some('O');Some('O');Some('O');None;None;None;None;None;None]; TurnNumber = 1; IsInverted = true}
+    let board2 = {BoardSize = 3; CurrentBoard = [None;None;None;Some('O');Some('O');Some('O');None;None;None]; TurnNumber = 1; IsInverted = true}
+    let board3 = {BoardSize = 3; CurrentBoard = [None;None;None;None;None;None;Some('O');Some('O');Some('O')]; TurnNumber = 1; IsInverted = true}
+    let player1 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'O'}
+    let player2 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'X'}
+    let functions = {PrintFunction = printHolder; InputFunction = stringOutput}
+    let game1 = {GameBoard = board1; Players = [player1; player2]; Functions = functions}
+    let game2 = {GameBoard = board2; Players = [player1; player2]; Functions = functions}
+    let game3 = {GameBoard = board3; Players = [player1; player2]; Functions = functions}
 
     Assert.True(isGameOver (game1))
     Assert.True(isGameOver (game2))
@@ -38,9 +57,15 @@ let willHorizontalWinEndGame () =
 
 [<Fact>]
 let willVerticalWinEndGame () =
-    let game1 = {BoardSize = 3; CurrentBoard = [Some('O');None;None;Some('O');None;None;Some('O');None;None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
-    let game2 = {BoardSize = 3; CurrentBoard = [None;Some('O');None;None;Some('O');None;None;Some('O');None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
-    let game3 = {BoardSize = 3; CurrentBoard = [None;None;Some('O');None;None;Some('O');None;None;Some('O')]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    let board1 = {BoardSize = 3; CurrentBoard = [Some('O');None;None;Some('O');None;None;Some('O');None;None]; TurnNumber = 1; IsInverted = true}
+    let board2 = {BoardSize = 3; CurrentBoard = [None;Some('O');None;None;Some('O');None;None;Some('O');None]; TurnNumber = 1; IsInverted = true}
+    let board3 = {BoardSize = 3; CurrentBoard = [None;None;Some('O');None;None;Some('O');None;None;Some('O')]; TurnNumber = 1; IsInverted = true}
+    let player1 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'O'}
+    let player2 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'X'}
+    let functions = {PrintFunction = printHolder; InputFunction = stringOutput}
+    let game1 = {GameBoard = board1; Players = [player1; player2]; Functions = functions}
+    let game2 = {GameBoard = board2; Players = [player1; player2]; Functions = functions}
+    let game3 = {GameBoard = board3; Players = [player1; player2]; Functions = functions}
 
     Assert.True(isGameOver (game1))
     Assert.True(isGameOver (game2))
@@ -49,24 +74,29 @@ let willVerticalWinEndGame () =
 
 [<Fact>]
 let willDiagonalWinEndGame () =
-    let game1 = {BoardSize = 3; CurrentBoard = [Some('O');None;None;None;Some('O');None;None;None;Some('O')]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
-    let game2 = {BoardSize = 3; CurrentBoard = [None;None;Some('O');None;Some('O');None;Some('O');None;None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
-
+    let board1 = {BoardSize = 3; CurrentBoard = [Some('O');None;None;None;Some('O');None;None;None;Some('O')]; TurnNumber = 1; IsInverted = true}
+    let board2 = {BoardSize = 3; CurrentBoard = [None;None;Some('O');None;Some('O');None;Some('O');None;None]; TurnNumber = 1; IsInverted = true}
+    let player1 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'O'}
+    let player2 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'X'}
+    let functions = {PrintFunction = printHolder; InputFunction = stringOutput}
+    let game1 = {GameBoard = board1; Players = [player1; player2]; Functions = functions}
+    let game2 = {GameBoard = board2; Players = [player1; player2]; Functions = functions}
     Assert.True(isGameOver (game1))
     Assert.True(isGameOver (game2))
 
 [<Fact>]
 let canMakeMove () =
-    let game = {BoardSize = 3; CurrentBoard = [None;None;None;None;None;None;None;None;None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    let game = {BoardSize = 3; CurrentBoard = [None;None;None;None;None;None;None;None;None]; TurnNumber = 1; IsInverted = true}
+    
     Assert.Equal<char option list>([Some('O');None;None;None;None;None;None;None;None], makeMove (game, 0, 'O'))
 
 [<Fact>]
 let canDetermineIllegalMoves () =
-    let game = {BoardSize = 3; CurrentBoard = [None;None;None;None;None;None;None;None;None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    let game = {BoardSize = 3; CurrentBoard = [None;None;None;None;None;None;None;None;None]; TurnNumber = 1; IsInverted = true}
     Assert.True(isLegalMove (8, game))
     Assert.True(not(isLegalMove (10,game)))
     Assert.True(not(isLegalMove (-1,game)))
-    let game2 = {BoardSize = 4; CurrentBoard = [None;None;None;None;None;None;None;None;None;None;None;None;None;None;None;None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
+    let game2 = {BoardSize = 4; CurrentBoard = [None;None;None;None;None;None;None;None;None;None;None;None;None;None;None;None]; TurnNumber = 1; IsInverted = true}
 
     Assert.True(isLegalMove (14, game2))
 
@@ -78,9 +108,13 @@ let returnNum (f : unit -> string) =
     x |> System.Int32.Parse
 
 [<Fact>]
-let canHumanMakeMove () =
-    let game = {BoardSize = 3; CurrentBoard = [None;None;None;None;None;None;None;None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
-    Assert.Equal<int>(0,humanMove (moveInput, game, returnStringNum,printHolder))
+let canHumanMakeMove () =    
+    let board = {BoardSize = 3; CurrentBoard = [None;None;None;None;None;None;None;None]; TurnNumber = 1; IsInverted = true}
+    let player1 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'O'}
+    let player2 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'X'}
+    let functions = {PrintFunction = printHolder; InputFunction = stringOutput}
+    let game = {GameBoard = board; Players = [player1; player2]; Functions = functions}
+    Assert.Equal<int>(0,humanMove (moveInput, game))
 
 (*[<Fact>]
 let canComputerMakeMove () =
@@ -92,33 +126,51 @@ let canUserInputMove () =
     Assert.Equal<int>(0,moveInput(returnStringNum,printHolder))
 
 [<Fact>]
-let canDisplayInvertedBoard() =
-    let testGame = [Some('O');Some('X');Some('O');Some('O');Some('X');Some('O');Some('X');Some('O');Some('X')]
-    Assert.Equal<string>("Current board:\n___________\n|O|X|O|\n___________\n|O|X|O|\n___________\n|X|O|X|\n___________\n",displayBoard(testGame,3,true))
+let canDisplayInvertedBoard() =    
+    let board = {BoardSize = 3; CurrentBoard = [Some('O');Some('X');Some('O');Some('O');Some('X');Some('O');Some('X');Some('O');Some('X')]; TurnNumber = 1; IsInverted = true}
+    let player1 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'O'}
+    let player2 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'X'}
+    let functions = {PrintFunction = printHolder; InputFunction = stringOutput}
+    let game = {GameBoard = board; Players = [player1; player2]; Functions = functions}
+    Assert.Equal<string>("Current board:\n___________\n|O|X|O|\n___________\n|O|X|O|\n___________\n|X|O|X|\n___________\n",displayBoard(game))
 
 [<Fact>]
 let canDisplayUninvertedBoard () =
-    let testGame = [Some('O');Some('X');Some('O');Some('O');Some('X');Some('O');Some('X');Some('O');Some('X')]
-    Assert.Equal<string>("Current board:\n___________\n|X|O|X|\n___________\n|O|X|O|\n___________\n|O|X|O|\n___________\n",displayBoard(testGame,3,false))
+    let board = {BoardSize = 3; CurrentBoard = [Some('O');Some('X');Some('O');Some('O');Some('X');Some('O');Some('X');Some('O');Some('X')]; TurnNumber = 1; IsInverted = false}
+    let player1 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'O'}
+    let player2 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'X'}
+    let functions = {PrintFunction = printHolder; InputFunction = stringOutput}
+    let game = {GameBoard = board; Players = [player1; player2]; Functions = functions}
+    Assert.Equal<string>("Current board:\n___________\n|X|O|X|\n___________\n|O|X|O|\n___________\n|O|X|O|\n___________\n",displayBoard(game))
 
 [<Fact>]
 let canDisplayInvertedOptions () =
-    Assert.Equal<string>("Board input:\n___________\n|0|1|2|\n___________\n|3|4|5|\n___________\n|6|7|8|\n___________\n",displayBoardOptions(3,true))
+    let board = {BoardSize = 3; CurrentBoard = [Some('O');Some('X');Some('O');Some('O');Some('X');Some('O');Some('X');Some('O');Some('X')]; TurnNumber = 1; IsInverted = true}
+    let player1 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'O'}
+    let player2 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'X'}
+    let functions = {PrintFunction = printHolder; InputFunction = stringOutput}
+    let game = {GameBoard = board; Players = [player1; player2]; Functions = functions}
+    Assert.Equal<string>("Board input:\n___________\n|0|1|2|\n___________\n|3|4|5|\n___________\n|6|7|8|\n___________\n",displayBoardOptions(game))
 
 [<Fact>]
 let canDisplayUninvertedOptions () =
-    Assert.Equal<string>("Board input:\n___________\n8|7|6|\n___________\n5|4|3|\n___________\n2|1|0|\n___________\n",displayBoardOptions(3,false))
+    let board = {BoardSize = 3; CurrentBoard = [Some('O');Some('X');Some('O');Some('O');Some('X');Some('O');Some('X');Some('O');Some('X')]; TurnNumber = 1; IsInverted = false}
+    let player1 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'O'}
+    let player2 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'X'}
+    let functions = {PrintFunction = printHolder; InputFunction = stringOutput}
+    let game = {GameBoard = board; Players = [player1; player2]; Functions = functions}
+    Assert.Equal<string>("Board input:\n___________\n8|7|6|\n___________\n5|4|3|\n___________\n2|1|0|\n___________\n",displayBoardOptions(game))
 
 let returnString () =
     "a"
 
 [<Fact>]
 let canGetHumanCharacter () =
-    Assert.Equal<char>('a',getHumanCharacter(printHolder,returnString))
+    Assert.Equal<char>('a',getPlayerCharacter(printHolder,returnString))
 
 [<Fact>]
 let canGetComputerCharacter () =
-    Assert.Equal<char>('a',getComputerCharacter(printHolder,returnString))
+    Assert.Equal<char>('a',getPlayerCharacter(printHolder,returnString))
 
 [<Fact>]
 let canVerifySameCharacters () =
@@ -138,7 +190,7 @@ let canDetermineWhoGoesFirst () =
 
 [<Fact>]
 let canPlayAgain () =
-    Assert.Equal<bool>(false,askIfGameOver(printHolder,returnString))
+    Assert.Equal<bool>(false,askIfReplay(printHolder,returnString))
 
 [<Fact>]
 let canaskIfInverted () =
@@ -147,18 +199,20 @@ let canaskIfInverted () =
 let returnSeedNumber () =
     "1"
 
-[<Fact>]
+(*[<Fact>]
 let canChooseAlgorithm () =
-    Assert.Equal<int>(1,askAlgorithmSeed(printHolder,returnSeedNumber,3))
+    Assert.Equal<int>(1,askAlgorithmType(printHolder,returnSeedNumber,3))*)
 
 [<Fact>]
 let canGetSizeOfBoard () =
     Assert.Equal<int>(4,getSizeOfBoard(printHolder,returnString))
 
 [<Fact>]
-let minimaxTest () =
-    let game = {BoardSize = 3; CurrentBoard = [None;None;Some('O');None;None;None;None;None;None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
-    Assert.Equal<int>(4,minimaxAlgorithm(game,true).[0])
+let minimaxTest () =    
+    let board = {BoardSize = 3; CurrentBoard = [None;None;Some('O');None;None;None;None;None;None]; TurnNumber = 1; IsInverted = false}
+    let player1 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'O'}
+    let player2 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'X'}
+    Assert.Equal<int>(4,minimaxStarter(board, player1, player2))
 
 [<Fact>]
 let canComputerChooseCorner () =
@@ -314,7 +368,9 @@ let canComputerFindDiagonalWins () =
     Assert.Equal<int>(13,checkDiagonalWins4X4(testBoard8,'O').Value)
 
 [<Fact>]
-let canStupidComputerMakeMove () =
-    let game = {BoardSize = 3; CurrentBoard = [None;None;None;None;None;None;None;None;None]; HumanCharacter = 'O'; ComputerCharacter = 'X'; DoesComputerGoFirst = true; TurnNumber = 1}
-    let testMove = stupidComputerMove(game,game.BoardSize*game.BoardSize-1) 
+let canStupidComputerMakeMove () =    
+    let board = {BoardSize = 3; CurrentBoard = [None;None;None;None;None;None;None;None;None]; TurnNumber = 1; IsInverted = false}
+    let player1 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'O'}
+    let player2 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'X'}
+    let testMove = stupidComputerMove(board,player1,player2) 
     Assert.True(testMove > -1 && testMove < 9)
