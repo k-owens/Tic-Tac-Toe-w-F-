@@ -2,6 +2,7 @@
 open GameBoard
 open MoveManager
 open ConsoleTasks
+open UserSelection
 open Game
 
 
@@ -9,26 +10,33 @@ let returnFunction () =
     0
 
 
-let turn (currentGame : Game, enterMove, print,isInverted,player1 : Player, player2 : Player) =
-    if(currentGame.TurnNumber % 2 = 1 ) then
-        print(displayBoardOptions(currentGame.BoardSize,isInverted))
-        makeMove(currentGame, moveTypeSelector (player1,moveInput, currentGame, enterMove, print,currentGame, player1.ComputerAlgorithm, player2), player1.PlayerCharacter)
-    else
-        print "Computer Move:"
-        makeMove(currentGame, moveTypeSelector (player2,moveInput, currentGame, enterMove, print,currentGame, player2.ComputerAlgorithm, player1), player2.PlayerCharacter)
+let playerTurn (game : Game, playerNumber) =
+        game.Functions.PrintFunction ("Player " + playerNumber.ToString() + " Move:")
+        game.Functions.PrintFunction(displayBoardOptions(game))
+        makeMove(game.GameBoard, moveTypeSelector (game, playerNumber,moveInput), game.Players.[playerNumber-1].PlayerCharacter)
 
 
-let rec playGame (currentGame, enterMove, print, isInverted, player1, player2) =
-    print(displayBoard(currentGame.CurrentBoard,currentGame.BoardSize,isInverted))
-    if not(isGameOver (currentGame,player1,player2)) then
-        let newGameState = turn(currentGame, enterMove, print,isInverted,player1,player2)
-        let updatedGame = {BoardSize = currentGame.BoardSize; CurrentBoard = newGameState; TurnNumber = currentGame.TurnNumber+1}
-        playGame(updatedGame, enterMove, print,isInverted, player1, player2)
+let turn (game : Game) =
+    if(game.GameBoard.TurnNumber % 2 = 1 ) then
+        playerTurn(game,1)
     else
-        print ("The game is over.  The computer is still unbeaten.")
+        playerTurn(game,2)
+
+
+let rec playGame (game : Game) =
+    game.Functions.PrintFunction(displayBoard(game))
+    if not(isGameOver (game)) then
+        let newBoardState = turn(game)
+        let updatedBoard = {BoardSize = game.GameBoard.BoardSize; CurrentBoard = newBoardState; TurnNumber = game.GameBoard.TurnNumber+1; IsInverted = game.GameBoard.IsInverted}
+        let newGame = {GameBoard = updatedBoard; Players = game.Players; Functions = game.Functions}
+        playGame(newGame)
+    else
+        game.Functions.PrintFunction ("The game is over.  The computer is still unbeaten.")
         0
 
 
-let startNewGame (boardSize, humanCharacter, computerCharacter, enterMove, print,isInverted, player1, player2) =
-    let x = {BoardSize = boardSize; CurrentBoard = startingBoard boardSize; TurnNumber = 1}
-    playGame(x, enterMove, print,isInverted, player1, player2)
+let startNewGame (input, print) =
+    let game = askForGameInfo(print,input)
+    let player1 = askForPlayerInformation(print, input, 1, 3)
+    let player2 = askForPlayerInformation(print, input, 2, 3)
+    {GameBoard = game; Players = [player1;player2]; Functions = {PrintFunction = print; InputFunction = input}}
