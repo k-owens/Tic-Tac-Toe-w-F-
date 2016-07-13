@@ -2,23 +2,25 @@
 open GameBoard
 open Game
 
-let rec minimaxAlgorithm (game : Game, isPlayer, askingPlayer , opposingPlayer) =
 
-    if(didPlayer1Win game.CurrentBoard askingPlayer.PlayerCharacter game.BoardSize) then
+
+let rec minimaxAlgorithm (gameBoard : Board, isPlayer, askingPlayer : Player, opposingPlayer : Player) = 
+
+    if(didPlayer1Win (gameBoard.CurrentBoard, askingPlayer.PlayerCharacter, gameBoard.BoardSize)) then
         [0;1]
-    elif(didPlayer2Win game.CurrentBoard opposingPlayer.PlayerCharacter game.BoardSize) then
+    elif(didPlayer2Win (gameBoard.CurrentBoard, opposingPlayer.PlayerCharacter, gameBoard.BoardSize)) then
         [0;-1]
-    elif(didTieHappen game.CurrentBoard) then
+    elif(didTieHappen gameBoard.CurrentBoard) then
         [0;0]
     else
         if isPlayer then
             let mutable maximum = -1000
             let mutable resultArray = [||]
 
-            for index in 0 .. (game.BoardSize*game.BoardSize - 1) do
-                if(game.CurrentBoard.[index] = None) then
-                    let newGame = {BoardSize = game.BoardSize; CurrentBoard = makeMove(game,index,askingPlayer.PlayerCharacter); TurnNumber = game.TurnNumber+1}
-                    let result = minimaxAlgorithm(newGame, false, askingPlayer , opposingPlayer)
+            for index in 0 .. (gameBoard.BoardSize*gameBoard.BoardSize - 1) do
+                if(gameBoard.CurrentBoard.[index] = None) then
+                    let newGameBoard = {BoardSize = gameBoard.BoardSize; CurrentBoard = makeMove(gameBoard,index,askingPlayer.PlayerCharacter); TurnNumber = gameBoard.TurnNumber+1; IsInverted = gameBoard.IsInverted}
+                    let result = minimaxAlgorithm(newGameBoard, false, askingPlayer,opposingPlayer)
                     if maximum < result.[1] then
                         maximum <- result.[1]    
                         resultArray <- [|index;maximum|]
@@ -27,11 +29,15 @@ let rec minimaxAlgorithm (game : Game, isPlayer, askingPlayer , opposingPlayer) 
             let mutable minimum = 1000
             let mutable resultArray = [||]
 
-            for index in 0 .. (game.BoardSize*game.BoardSize - 1) do
-                if(game.CurrentBoard.[index] = None) then
-                    let newGame = {BoardSize = game.BoardSize; CurrentBoard = makeMove(game,index,opposingPlayer.PlayerCharacter); TurnNumber = game.TurnNumber+1}
-                    let result = minimaxAlgorithm(newGame, true,  askingPlayer , opposingPlayer)
+            for index in 0 .. (gameBoard.BoardSize*gameBoard.BoardSize - 1) do
+                if(gameBoard.CurrentBoard.[index] = None) then
+                    let newGameBoard = {BoardSize = gameBoard.BoardSize; CurrentBoard = makeMove(gameBoard,index,opposingPlayer.PlayerCharacter); TurnNumber = gameBoard.TurnNumber+1; IsInverted = gameBoard.IsInverted}
+                    let result = minimaxAlgorithm(newGameBoard, true, askingPlayer,opposingPlayer)
                     if minimum > result.[1] then
                         minimum <- result.[1]    
                         resultArray <- [|index;minimum|]
             [resultArray.[0]; resultArray.[1]]
+            
+let minimaxStarter (gameBoard : Board, askingPlayer : Player, opposingPlayer : Player) =
+    let result = minimaxAlgorithm(gameBoard, true, askingPlayer, opposingPlayer)
+    result.[0]

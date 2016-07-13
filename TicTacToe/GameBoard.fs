@@ -1,7 +1,7 @@
 ﻿module GameBoard
 open Game
 
-let startingBoard size : char option list = 
+let startingBoard (size) : char option list = 
     [for i in 0 .. (size*size) -> None]
 
 
@@ -13,7 +13,7 @@ let makeMove (game, moveIndex, player) =
     List.init (game.BoardSize * game.BoardSize) (fun i -> if moveIndex = i then Some(player) else game.CurrentBoard.[i])
 
 
-let didTieHappen gameState =
+let didTieHappen (gameState) =
     not(List.exists (fun elem -> elem = None) gameState)
 
 
@@ -37,22 +37,22 @@ let didDiagonalWinHappen (gameState : char option list, player1, boardSize) =
     didWin (diagonal1, player1) || didWin (diagonal2, player1)
 
 
-let didPlayer1Win gameState player1 boardSize =
+let didPlayer1Win (gameState, player1, boardSize) =
     didHorizontalWinHappen (gameState, player1, boardSize)
     || didVerticalWinHappen (gameState, player1, boardSize)
     || didDiagonalWinHappen (gameState, player1, boardSize)
 
 
-let didPlayer2Win gameState player2 boardSize =
+let didPlayer2Win (gameState, player2, boardSize) =
     didHorizontalWinHappen (gameState, player2, boardSize)
     || didVerticalWinHappen (gameState, player2, boardSize)
     || didDiagonalWinHappen (gameState, player2, boardSize)
 
 
-let didSomeoneWin gameState player1 player2 boardSize = 
-    didPlayer1Win gameState player1 boardSize
-    || didPlayer2Win gameState player2 boardSize
+let didSomeoneWin (gameState, player1, player2, boardSize) = 
+    didPlayer1Win (gameState, player1, boardSize)
+    || didPlayer2Win (gameState, player2, boardSize)
 
 
-let isGameOver (game, player1, player2) = 
-    didTieHappen game.CurrentBoard || didSomeoneWin game.CurrentBoard player1.PlayerCharacter player2.PlayerCharacter game.BoardSize
+let isGameOver (game : Game) = 
+    didTieHappen (game.GameBoard.CurrentBoard) || didSomeoneWin (game.GameBoard.CurrentBoard, game.Players.[0].PlayerCharacter, game.Players.[1].PlayerCharacter, game.GameBoard.BoardSize)

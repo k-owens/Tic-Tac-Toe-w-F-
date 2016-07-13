@@ -1,11 +1,27 @@
 ﻿module Game
 
-type Game = 
+type Board = 
     {   BoardSize : int 
         CurrentBoard : char option list 
-        TurnNumber : int}
+        TurnNumber : int
+        IsInverted : bool}
 
 type Player =
-    {   PlayerSeed : int
-        ComputerAlgorithm : int
+    {   PlayerType : int
+        ComputerAlgorithm : (Board * Player * Player -> int)
         PlayerCharacter: char}
+
+type FunctionHolder =
+    {   PrintFunction : (string -> unit)
+        InputFunction : (unit -> string)}
+
+type Game =
+    {   GameBoard : Board
+        Players : Player list
+        Functions : FunctionHolder}
+
+let otherPlayer(game : Game, playerNumber) =
+    if(playerNumber = 1) then
+        game.Players.[1]
+    else
+        game.Players.[0]

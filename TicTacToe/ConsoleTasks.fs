@@ -1,4 +1,5 @@
 ﻿module ConsoleTasks
+open Game
 
 let rec moveInput (moveEntered, print) = 
     print ("Please select your move: ")
@@ -9,42 +10,42 @@ let rec moveInput (moveEntered, print) =
         | :? System.FormatException -> moveInput(moveEntered, print)
 
 
-let displayInvertedBoard (board : char option list, boardSize) =
+let displayInvertedBoard (board : Board) =
     let mutable x = ""
-    for i in 0 .. boardSize-1 do
+    for i in 0 .. board.BoardSize-1 do
         x <-  x + "___________\n"
         x <- x + "|"
-        for j in 0 .. boardSize-1 do
-            if board.[(i*boardSize) + j] = None then
+        for j in 0 .. board.BoardSize-1 do
+            if board.CurrentBoard.[(i*board.BoardSize) + j] = None then
                 x <- x + ' '.ToString()
             else
-                x <- x + board.[(i*boardSize) + j].Value.ToString()
+                x <- x + board.CurrentBoard.[(i*board.BoardSize) + j].Value.ToString()
             x <- x + "|"
         x <- x + "\n"
     x <- x + "___________\n"
     x
 
 
-let displayUninvertedBoard (board : char option list, boardSize) =
+let displayUninvertedBoard (board : Board) =
     let mutable x = ""
-    for i in boardSize-1 .. -1 .. 0 do
+    for i in board.BoardSize-1 .. -1 .. 0 do
         x <-  x + "___________\n"
         x <- x + "|"
-        for j in boardSize-1 .. -1 .. 0 do
-            if(board.[(i*boardSize) + j] = None) then
+        for j in board.BoardSize-1 .. -1 .. 0 do
+            if(board.CurrentBoard.[(i*board.BoardSize) + j] = None) then
                 x <- x + ' '.ToString()
             else
-                x <- x + board.[(i*boardSize) + j].Value.ToString()
+                x <- x + board.CurrentBoard.[(i*board.BoardSize) + j].Value.ToString()
             x <- x + "|"
         x <- x + "\n"
     x <- x + "___________\n"
     x
 
-let displayBoard (board : char option list, boardSize, isInverted) =
-    if(isInverted) then
-        "Current board:\n" + displayInvertedBoard(board,boardSize)
+let displayBoard (game : Game) =
+    if(game.GameBoard.IsInverted) then
+        "Current board:\n" + displayInvertedBoard(game.GameBoard)
     else
-        "Current board:\n" + displayUninvertedBoard(board,boardSize)
+        "Current board:\n" + displayUninvertedBoard(game.GameBoard)
 
 
 let displayInvertedBoardOptions (boardSize) =
@@ -71,8 +72,8 @@ let displayUnivertedBoardOptions (boardSize) =
     x <- x + "___________\n"
     x
 
-let displayBoardOptions (boardSize, isInverted) =
-    if(isInverted) then
-        "Board input:\n" + displayInvertedBoardOptions(boardSize)
+let displayBoardOptions (game : Game) = 
+    if(game.GameBoard.IsInverted) then
+        "Board input:\n" + displayInvertedBoardOptions(game.GameBoard.BoardSize)
     else
-        "Board input:\n" + displayUnivertedBoardOptions (boardSize)
+        "Board input:\n" + displayUnivertedBoardOptions (game.GameBoard.BoardSize)

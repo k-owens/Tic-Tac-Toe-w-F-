@@ -172,7 +172,7 @@ let respondToSideOrCornerStrategy (gameState : char option list, humanMoveSpot :
                     returnMove <- chooseSide (gameState)
     returnMove
 
-let rule3X3 (game : Game, humanMoveSpot : int, firstHumanMove : int, humanCharacter : char, computerCharacter : char)=
+let rule3X3 (game : Board, humanMoveSpot : int, firstHumanMove : int, humanCharacter : char, computerCharacter : char)=
     printfn "Computer move..."
     let mutable computerMove = None
 
@@ -184,3 +184,6 @@ let rule3X3 (game : Game, humanMoveSpot : int, firstHumanMove : int, humanCharac
             if(computerMove = None) then
                 computerMove <- respondToSideOrCornerStrategy (game.CurrentBoard, humanMoveSpot, firstHumanMove, humanCharacter, computerCharacter)
     computerMove.Value
+
+let rule3X3Starter (game : Board, askingPlayer : Player, opposingPlayer : Player) =
+    rule3X3(game,0,0,opposingPlayer.PlayerCharacter,askingPlayer.PlayerCharacter)
