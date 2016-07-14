@@ -18,7 +18,7 @@ let printHolder (arbitrary : string) =
     printfn ""
 
 let stringOutput () =
-    ""
+    "1"
 
 [<Fact>]
 let canTie () =
@@ -114,7 +114,7 @@ let canHumanMakeMove () =
     let player2 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'X'}
     let functions = {PrintFunction = printHolder; InputFunction = stringOutput}
     let game = {GameBoard = board; Players = [player1; player2]; Functions = functions}
-    Assert.Equal<int>(0,humanMove (moveInput, game))
+    Assert.Equal<int>(1,humanMove (moveInput, game))
 
 (*[<Fact>]
 let canComputerMakeMove () =
@@ -184,10 +184,6 @@ let canVerifyDifferentCharacters () =
 let canGetCharactersForBothCharacters () =
     Assert.Equal<char list>(['a';'a'],getCharacterInput(printHolder,returnStringToChar))*)
 
-(*[<Fact>]
-let canDetermineWhoGoesFirst () =
-    Assert.Equal<bool>(true,doesComputerGoFirst(printHolder,returnString))*)
-
 [<Fact>]
 let canPlayAgain () =
     Assert.Equal<bool>(false,askIfReplay(printHolder,returnString))
@@ -209,7 +205,7 @@ let canGetSizeOfBoard () =
 
 [<Fact>]
 let minimaxTest () =    
-    let board = {BoardSize = 3; CurrentBoard = [None;None;Some('O');None;None;None;None;None;None]; TurnNumber = 1; IsInverted = false}
+    let board = {BoardSize = 3; CurrentBoard = [Some('X');None;None;None;None;None;None;None;None]; TurnNumber = 1; IsInverted = false}
     let player1 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'O'}
     let player2 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'X'}
     Assert.Equal<int>(4,minimaxStarter(board, player1, player2))
