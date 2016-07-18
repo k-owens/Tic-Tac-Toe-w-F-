@@ -365,8 +365,8 @@ let canComputerFindDiagonalWins () =
 
 [<Fact>]
 let canStupidComputerMakeMove () =    
-    let board = {BoardSize = 3; CurrentBoard = [None;None;None;None;None;None;None;None;None]; TurnNumber = 1; IsInverted = false}
+    let board = {BoardSize = 3; CurrentBoard = [Some('O');Some('O');None;None;Some('X');None;None;None;None]; TurnNumber = 1; IsInverted = false}
     let player1 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'O'}
     let player2 = {PlayerType = 1; ComputerAlgorithm = minimaxStarter; PlayerCharacter = 'X'}
     let testMove = stupidComputerMove(board,player1,player2) 
-    Assert.True(testMove > -1 && testMove < 9)
+    Assert.True(testMove > 1 && testMove < 9 && not(testMove = 4))

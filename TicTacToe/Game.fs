@@ -25,3 +25,6 @@ let otherPlayer(game : Game, playerNumber) =
         game.Players.[1]
     else
         game.Players.[0]
+
+let possibleMoves (gameBoard) =
+    [for location in 0 .. (gameBoard.BoardSize*gameBoard.BoardSize - 1) -> if(gameBoard.CurrentBoard.[location] = None) then Some(location) else None] |> List.choose id
