@@ -16,7 +16,7 @@ let rec minimaxAlgorithm (gameBoard : Board, isPlayer, askingPlayer : Player, op
     elif(didTieHappen gameBoard.CurrentBoard) then
         (0,0)
     elif isPlayer then
-        let moves = [for location in 0 .. (gameBoard.BoardSize*gameBoard.BoardSize - 1) -> if(gameBoard.CurrentBoard.[location] = None) then Some(location) else None] |> List.choose id
+        let moves = possibleMoves(gameBoard)
         let futureBoards = availableBoards(gameBoard, askingPlayer)
         let results = [for i in 0 .. (List.length futureBoards)-1 ->minimaxAlgorithm(futureBoards.[i], false, askingPlayer,opposingPlayer)]
         let scores = [for i in 0 .. (List.length results)-1 -> snd results.[i]]
@@ -24,7 +24,7 @@ let rec minimaxAlgorithm (gameBoard : Board, isPlayer, askingPlayer : Player, op
         let location = List.findIndex(fun elem -> elem = maxScore) scores
         (moves.[location],maxScore)
     else
-        let moves = [for location in 0 .. (gameBoard.BoardSize*gameBoard.BoardSize - 1) -> if(gameBoard.CurrentBoard.[location] = None) then Some(location) else None] |> List.choose id
+        let moves = possibleMoves(gameBoard)
         let futureBoards = availableBoards(gameBoard, opposingPlayer)
         let results = [for i in 0 .. (List.length futureBoards)-1 ->minimaxAlgorithm(futureBoards.[i], true, askingPlayer,opposingPlayer)]
         let scores = [for i in 0 .. (List.length results)-1 -> snd results.[i]]
