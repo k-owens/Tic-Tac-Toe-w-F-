@@ -21,7 +21,7 @@ let rec askAlgorithmType (print, input : unit -> string, gameSize) =
         print ("3. rules\n")
     let answer = input()
     if(answer = "1" )then
-        minimaxStarter
+        minimaxMove
     elif(answer = "2") then
         stupidComputerMove
     elif(answer = "3" && gameSize = 3) then
