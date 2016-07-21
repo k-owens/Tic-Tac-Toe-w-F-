@@ -31,7 +31,7 @@ let rec playGame (game : Game) =
         let newGame = {GameBoard = updatedBoard; Players = game.Players; Functions = game.Functions}
         playGame(newGame)
     else
-        game.Functions.PrintFunction ("The game is over.  The computer is still unbeaten.")
+        game.Functions.PrintFunction ("The game is over.")
         0
 
 
