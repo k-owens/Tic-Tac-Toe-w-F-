@@ -9,6 +9,6 @@ let getSizeOfBoard (print, input : unit -> string) =
         4
 
 let askIfInverted (print, input : unit -> string) = 
-    print ("If you would like to have biggest number on top of input press the 1 key.\n")
+    print ("If you would like to have smallest number on top of input press the 1 key.\n")
     let answer = input().ToCharArray()
     answer.[0] = '1'

@@ -9,35 +9,31 @@ let availableBoards (gameBoard : Board, player) =
 
 
 let rec minimaxAlgorithm (gameBoard : Board, isPlayer, askingPlayer : Player, opposingPlayer : Player, alpha, beta) =       
-    let rec maxLoop (boardList : Board list, index, a : int, b : int) =
-        let x = minimaxAlgorithm(boardList.[index], false, askingPlayer,opposingPlayer,a,b)
-        if x >= b then
-            if boardList.Length > 3 then
-                printf "beta pruning"
-            b
-        elif x > a && index < boardList.Length-1 then
-            maxLoop(boardList, index+1, x,b)
-        elif x <= a && index < boardList.Length-1 then
-            maxLoop(boardList,index+1, a, b)
-        elif x > a then
-            x
+    let rec maxLoop (boardList : Board list, index, currentAlpha, currentBeta) =
+        let score = minimaxAlgorithm(boardList.[index], false, askingPlayer,opposingPlayer,currentAlpha,currentBeta)
+        if score >= currentBeta then
+            currentBeta
+        elif score > currentAlpha && index < boardList.Length-1 then
+            maxLoop(boardList, index+1, score,currentBeta)
+        elif score <= currentAlpha && index < boardList.Length-1 then
+            maxLoop(boardList,index+1, currentAlpha, currentBeta)
+        elif score > currentAlpha then
+            score
         else
-            a
+            currentAlpha
 
-    let rec minLoop (boardList : Board list, index, a : int, b : int) =
-        let x = minimaxAlgorithm(boardList.[index], true, askingPlayer,opposingPlayer,a,b)
-        if x <= a then
-            if boardList.Length > 3 then
-                printf "alpha pruning"
-            a
-        elif x < b && index < boardList.Length-1 then
-            minLoop(boardList, index+1, a,x)
-        elif x >= b && index < boardList.Length-1 then
-            minLoop(boardList,index+1,a,b)
-        elif x < b then
-            x
-        else // x >= b
-            b
+    let rec minLoop (boardList : Board list, index, currentAlpha, currentBeta) =
+        let score = minimaxAlgorithm(boardList.[index], true, askingPlayer,opposingPlayer,currentAlpha,currentBeta)
+        if score <= currentAlpha then
+            currentAlpha
+        elif score < currentBeta && index < boardList.Length-1 then
+            minLoop(boardList, index+1, currentAlpha,score)
+        elif score >= currentBeta && index < boardList.Length-1 then
+            minLoop(boardList,index+1,currentAlpha,currentBeta)
+        elif score < currentBeta then
+            score
+        else
+            currentBeta
        
     if(didPlayer1Win (gameBoard.CurrentBoard, askingPlayer.PlayerCharacter, gameBoard.BoardSize)) then
         1
@@ -47,13 +43,11 @@ let rec minimaxAlgorithm (gameBoard : Board, isPlayer, askingPlayer : Player, op
         0
     elif isPlayer then
         let futureBoards = availableBoards(gameBoard, askingPlayer)
-        //let scores = List.init (List.length futureBoards) (fun i ->minimaxAlgorithm(futureBoards.[i], false, askingPlayer,opposingPlayer,alpha,beta))
-        let maxScore = maxLoop(futureBoards,0,alpha,beta)//List.max scores
+        let maxScore = maxLoop(futureBoards,0,alpha,beta)
         maxScore
     else
         let futureBoards = availableBoards(gameBoard, opposingPlayer)
-        //let scores = List.init (List.length futureBoards) (fun i ->minimaxAlgorithm(futureBoards.[i], true, askingPlayer,opposingPlayer, alpha,beta))
-        let minScore = minLoop(futureBoards,0,alpha,beta)//List.min scores
+        let minScore = minLoop(futureBoards,0,alpha,beta)
         minScore
 
             
